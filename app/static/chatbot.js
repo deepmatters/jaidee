@@ -78,43 +78,9 @@ const regexThankyou = new RegExp('ขอบคุณ|ขอบใจ|hank', 'g')
 // Init RegEx of intervening vocabs
 const regexSuicide = new RegExp('อยากตาย|ฆ่าตัวตาย|ไม่อยากอยู่|ไม่อยากมีชีวิต|จบชีวิต', 'g')
 
-// First conversation
+// Function to start first conversation
 function convStart() {
-    const botConv = document.getElementById('botConv')
-    const resGreeting = [
-        '<img src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี">', 
-        `สวัสดีจ๊ะ ดีใจที่ได้มาคุยกัน`, 
-        `หากมีเรื่องไม่สบายใจก็พิมพ์บอกพี่${botName}มาได้เลยนะ พี่จะใช้ความสามารถ AI ของพี่ไปดึงความเห็นของเพื่อนๆ ที่เค้าผ่านเรื่องนั้นมาได้แล้วออกมาให้นะ<br><span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement" target="_blank">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใครนะ`, 
-        `
-        <div class="rich-response">
-            <button id="reqStart" class="req-rich" onclick="convProcess('เริ่มคุย')">เริ่มคุย</button>
-        </div>
-        `
-    ]
-    
-    resGreeting.forEach(i => {
-        const childNode = document.createElement('div')
-        const childNodeClear = document.createElement('div')
-        
-        childNode.setAttribute('id', convNum+1)
-        childNode.setAttribute('class', 'conv-res')
-        botConv.appendChild(childNode)
-        document.getElementById(`${convNum+1}`).innerHTML = i
-    
-        childNodeClear.setAttribute('class', 'clear')
-        botConv.appendChild(childNodeClear)
-        // childNodeClear.scrollIntoView()
-    
-        // Push this conv into convLog
-        convLog.push({
-            convId: convNum+1, 
-            time: Date.now(), 
-            side: 'bot', 
-            message: i
-        })
-
-        convNum += 1
-    })
+    convProcess('start')
 }
 
 // Show the input and send to process
@@ -167,9 +133,20 @@ function convProcess(reqInput) {
     // const fallbackArr = ['ฟังอยู่นะ', 'อืม', 'เล่าต่อเลย']
 
     // Begin RegEx matching
-    if (reqInput == 'เริ่มคุย' || 
-        (reqInput.match(regexGreeting) != null) || 
-        reqInput == 'เริ่มใหม่') {
+    if (reqInput == 'start') {
+        // Responses
+        reqRes = [ 
+            '<img src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี">', 
+            `สวัสดีจ๊ะ ดีใจที่ได้มาคุยกัน<br><br>หากมีเรื่องไม่สบายใจก็พิมพ์บอกพี่${botName}มาได้เลยนะ พี่จะใช้ความสามารถ AI ของพี่ไปดึงความเห็นของเพื่อนๆ ที่เค้าผ่านเรื่องนั้นมาได้แล้วออกมาให้นะ<br><span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement" target="_blank">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใครนะ`, 
+            `
+            <div class="rich-response">
+                <button id="reqStart" class="req-rich" onclick="convProcess('เริ่มคุย')">เริ่มคุย</button>
+            </div>
+            `
+        ]
+
+        convRes()
+    } else if (reqInput == 'เริ่มคุย' || (reqInput.match(regexGreeting) != null) || reqInput == 'เริ่มใหม่') {
         // // Reveal input wrapper
         // revealReqWrapper()
 
