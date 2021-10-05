@@ -138,11 +138,7 @@ function convProcess(reqInput) {
         reqRes = [ 
             '<img src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี">', 
             `สวัสดีจ๊ะ ดีใจที่ได้มาคุยกัน<br><br>หากมีเรื่องไม่สบายใจก็พิมพ์บอกพี่${botName}มาได้เลยนะ พี่จะใช้ความสามารถ AI ของพี่ไปดึงความเห็นของเพื่อนๆ ที่เค้าผ่านเรื่องนั้นมาได้แล้วออกมาให้นะ<br><span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement" target="_blank">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใครนะ`, 
-            `
-            <div class="rich-response">
-                <button id="reqStart" class="req-rich" onclick="convProcess('เริ่มคุย')">เริ่มคุย</button>
-            </div>
-            `
+            `ไม่สบายใจเรื่องอะไรพิมพ์บอกพี่${botName}หน่อย<br><span class="help-text">ลองพิมพ์ <em>แอบชอบรุ่นพี่</em>, <em>เรียนไม่รู้เรื่อง</em>, <em>พ่อแม่ไม่เข้าใจ</em></span>`
         ]
 
         convRes()
