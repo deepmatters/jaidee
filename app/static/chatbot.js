@@ -118,16 +118,6 @@ function convReq(reqInput) {
     convProcess(reqInput)
 }
 
-// // Function to reveal reqWrapper with delay
-// function revealReqWrapper() {
-//     setTimeout(function() {
-//         document.getElementById('reqWrapper').style.display = 'block'
-        
-//         // Focus chatbot input box
-//         document.getElementById('reqInput').focus()
-//     }, 1*resDelay)
-// }
-
 // Process the input
 function convProcess(reqInput) {
     // const fallbackArr = ['ฟังอยู่นะ', 'อืม', 'เล่าต่อเลย']
@@ -143,9 +133,6 @@ function convProcess(reqInput) {
 
         convRes()
     } else if (reqInput == 'เริ่มคุย' || (reqInput.match(regexGreeting) != null) || reqInput == 'เริ่มใหม่') {
-        // // Reveal input wrapper
-        // revealReqWrapper()
-
         // Responses
         reqRes = [ 
             `ไม่สบายใจเรื่องอะไรพิมพ์บอกพี่${botName}หน่อย<br><span class="help-text">ลองพิมพ์ <em>แอบชอบรุ่นพี่</em>, <em>เรียนไม่รู้เรื่อง</em>, <em>พ่อแม่ไม่เข้าใจ</em></span>`
@@ -293,8 +280,8 @@ function convAddNotice() {
 function convRes() {
     const botConv = document.getElementById('botConv')
 
-    // Focus chatbot input box
-    document.getElementById('reqInput').focus()
+    // // Focus chatbot input box
+    // document.getElementById('reqInput').focus()
 
     // Add intervention info if intervention flag is not empty
     if (interventionFlag == 'suicide') {
