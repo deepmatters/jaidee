@@ -483,9 +483,9 @@ img.logo-sqr {
     background-color: #f2f2f2;
     opacity: 0.95;
     padding: 20px 0;
-    animation: fadeInAnimation ease 0.7s;
+    /* animation: fadeInAnimation ease 0.7s;
     animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    animation-fill-mode: forwards; */
 }
 
 .req-flex-wrapper {

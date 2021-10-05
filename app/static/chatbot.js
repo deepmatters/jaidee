@@ -152,15 +152,15 @@ function convReq(reqInput) {
     convProcess(reqInput)
 }
 
-// Function to reveal reqWrapper with delay
-function revealReqWrapper() {
-    setTimeout(function() {
-        document.getElementById('reqWrapper').style.display = 'block'
+// // Function to reveal reqWrapper with delay
+// function revealReqWrapper() {
+//     setTimeout(function() {
+//         document.getElementById('reqWrapper').style.display = 'block'
         
-        // Focus chatbot input box
-        document.getElementById('reqInput').focus()
-    }, 1*resDelay)
-}
+//         // Focus chatbot input box
+//         document.getElementById('reqInput').focus()
+//     }, 1*resDelay)
+// }
 
 // Process the input
 function convProcess(reqInput) {
@@ -170,8 +170,8 @@ function convProcess(reqInput) {
     if (reqInput == 'เริ่มคุย' || 
         (reqInput.match(regexGreeting) != null) || 
         reqInput == 'เริ่มใหม่') {
-        // Reveal input wrapper
-        revealReqWrapper()
+        // // Reveal input wrapper
+        // revealReqWrapper()
 
         // Responses
         reqRes = [ 
