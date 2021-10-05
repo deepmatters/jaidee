@@ -310,6 +310,9 @@ function convAddNotice() {
 function convRes() {
     const botConv = document.getElementById('botConv')
 
+    // Focus chatbot input box
+    document.getElementById('reqInput').focus()
+
     // Add intervention info if intervention flag is not empty
     if (interventionFlag == 'suicide') {
         convAddIntervention('suicide')
@@ -393,9 +396,6 @@ function convRes() {
                 }, index*resDelay)
         })
     }
-
-    // Focus chatbot input box
-    document.getElementById('reqInput').focus()
 
     console.log('Conversation log:')
     console.log(convLog)

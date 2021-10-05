@@ -338,11 +338,13 @@ textarea {
     float: right;
 }
 
-button.menu-toggle {
+.button-menu-toggle {
     font-family: Kanit;
+    color: #4f4f4f;
+    font-size: 1em;
     background-color: #f2f2f2;
     text-align: right;
-    padding: 2.7em 0px 2em 2em;
+    padding: 2em 0px 2em 2em;
     border: none;
 }
 
