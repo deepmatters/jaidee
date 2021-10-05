@@ -317,7 +317,7 @@ textarea {
 
 .header-text-block {
     flex: 1 1 27%;
-    padding-top: 2em;
+    padding-top: 30px;
 }
 
 .header-text-block p {
@@ -341,10 +341,10 @@ textarea {
 .button-menu-toggle {
     font-family: Kanit;
     color: #4f4f4f;
-    font-size: 1em;
+    font-size: 0.9em;
     background-color: #f2f2f2;
     text-align: right;
-    padding: 2em 0px 2em 2em;
+    padding: 31px 0px 30px 30px;
     border: none;
 }
 
@@ -393,7 +393,7 @@ textarea {
 .nav-item {
     display: inline-block;
     font-size: 0.9em;
-    padding: 2.25em 8px;
+    padding: 31px 8px;
 }
 
 .nav-item a:link, .nav-item a:visited {
@@ -483,6 +483,9 @@ img.logo-sqr {
     background-color: #f2f2f2;
     opacity: 0.95;
     padding: 20px 0;
+    animation: fadeInAnimation ease 0.7s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
 
 .req-flex-wrapper {
@@ -664,7 +667,7 @@ span.help-text a:link, span.help-text a:visited {
     
     .header-text-block {
         flex: 1 1 60%;
-        padding-top: 2em;
+        padding-top: 30px;
     }
 
     .header-nav-toggle {
@@ -704,7 +707,7 @@ span.help-text a:link, span.help-text a:visited {
     
     .header-text-block {
         flex: 1 1 55%;
-        padding-top: 2em;
+        padding-top: 30px;
     }
 
     .content-wrapper {
