@@ -70,7 +70,7 @@ img {
 }
 
 hr {
-    border: 1px dashed #808080;
+    border: 1px solid #cccccc;
 }
 
 .spacer-small {
@@ -442,6 +442,12 @@ button.menu-toggle {
     text-align: center;
 }
 
+img.about {
+    max-width: 25%;
+    height: auto;
+    padding: 15px;
+}
+
 img.logo-rect {
     max-width: 30%;
     height: auto;
@@ -714,6 +720,12 @@ span.help-text a:link, span.help-text a:visited {
     .conv-res img {
         height: 120px;
         width: auto;
+    }
+
+    img.about {
+        max-width: 50%;
+        height: auto;
+        padding: 15px;
     }
 
     img.logo-rect {

@@ -282,7 +282,7 @@ def search_api():
         word_list = []
 
         for word in word_list_pos:
-            if word[1] == 'NOUN' or word[1] == 'VERB' or word[1] == 'PROPN':
+            if word[1] == 'NOUN' or word[1] == 'VERB' or word[1] == 'ADJ' or word[1] == 'PROPN':
                 word_list.append(word[0])
 
         # Prepare regex
