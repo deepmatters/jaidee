@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="login-wrapper">
+        <h1>ลืมรหัสผ่าน</h1>
+        <p>หากลืมรหัสผ่าน กรุณากรอกอีเมลที่เคยใช้สมัครสมาชิก เพื่อรับลิงก์ในการรีเซ็ตรหัสผ่านใหม่ทางอีเมล</p>
+        <form method="POST" action="/forget">
+            {{ form.csrf_token }}
+            <div class="input-wrapper">
+                {{ form.email(size=23, placeholder="yourname@email.com", autofocus=true) }}<br>
+            </div>
+            <div class="button-wrapper">
+                {{ form.submit(class_="button") }}
+            </div>
+        </form>
+        <p>[ <a href="/login">ลองล็อกอินอีกครั้ง</a> ]</p>
+    </div>
+</div>
+{% endblock %}

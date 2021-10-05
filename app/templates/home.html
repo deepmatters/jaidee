@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div class="main-wrapper">
+        <div id='botWrapper' class='bot-wrapper'>
+            <div id="csrf">{{ form.csrf_token }}</div>
+            <div id='botName' class='hidden'>ใจดี</div>
+            <div id='convId' class='hidden'>0</div>
+            <div id='botConv' class='bot-conv-wrapper'></div>
+            <div class='clear'></div>
+            <div id='reqWrapper' class='req-wrapper' style="display:none">
+                <p class="input-guide">พิมพ์คุยกับพี่แชทบอทใจดีได้เลย</p>
+                <div class="req-flex-wrapper">
+                    <input type="text" id="reqInput" class="req-input">
+                    <button type="button" class="req-input" onclick="reqSubmit()">ส่ง</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/static/chatbot.js"></script>
+{% endblock %}

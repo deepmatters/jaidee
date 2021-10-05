@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="content-wrapper">
+        <h1>ข้อมูลของฉัน</h1>
+        <div class="main-flex-wrapper">
+            <div class="main-flex-half-left">
+                <p>รหัสผู้ใช้: {{ user_id }}</p>
+                <p>ชื่อ: {{ user_name }}</p>
+                <p>อีเมล: {{ user_email }}</p>
+                <p>รหัสผ่าน: ******** [ <a href="/password-change">เปลี่ยนรหัสผ่าน</a> ]</p>
+                <p>ประเภทการใช้งาน: {{ user_role }}</p>
+                <p>วันที่สร้างบัญชี: {{ user_create_dt.strftime('%d-%m-%Y') }}</p>
+                <p>วันที่ล็อกอินครั้งล่าสุด: {{ user_lastlogin_dt.strftime('%d-%m-%Y') }}</p>
+            </div>
+            <div class="main-flex-half-right">
+                <p>User content</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

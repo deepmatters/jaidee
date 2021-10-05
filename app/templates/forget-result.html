@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-wrapper">
+    <div class="login-wrapper">
+        {% if error_type == "wrong_email" %}
+            <h1>ขออภัย</h1>
+            <p>{{ comment }}</p>
+            <p>[ <a href="/forget">กลับไปลองใหม่</a> ]</p>
+        {% else %}
+            <h1>กรุณาเช็คอีเมล</h1>
+            <p>{{ comment }}</p>
+            <p>[ <a href="/">กลับไปหน้าแรก</a> ]</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
