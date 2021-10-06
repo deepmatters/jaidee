@@ -258,11 +258,11 @@ Search API
 
 def gender_convert(gender):
     if gender == 'male':
-        return 'ชาย'
+        return 'ผู้ชาย'
     elif gender == 'female':
-        return 'หญิง'
+        return 'ผู้หญิง'
     else:
-        return 'ไม่ระบุเพศ'
+        return ' LGBTQ'
 
 @app.route('/search/api', methods=('GET', 'POST'))
 def search_api():

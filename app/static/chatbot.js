@@ -112,14 +112,14 @@ function fetchSearch(reqInput) {
                 )
             } else {  // If there's result
                 // Prep pronoun and randomised avatar
-                if (i.gender == 'ชาย') {
-                    pronoun = 'เขา'
+                if (i.gender == 'ผู้ชาย') {
+                    pronoun = 'ผม'
                     avatarUrl = avatarMale[Math.floor(Math.random()*avatarMale.length)]
-                } else if (i.gender == 'หญิง') {
-                    pronoun = 'เธอ'
+                } else if (i.gender == 'ผู้หญิง') {
+                    pronoun = 'เรา'
                     avatarUrl = avatarFemale[Math.floor(Math.random()*avatarFemale.length)]
                 } else {
-                    pronoun = 'เธอ'
+                    pronoun = 'เรา'
                     avatarUrl = avatarOther[Math.floor(Math.random()*avatarOther.length)]
                 }
     
@@ -127,8 +127,8 @@ function fetchSearch(reqInput) {
                 reqRes.push(
                     `
                     <img class="avatar" src="${avatarUrl}" alt="เพื่อน${i.gender}">
-                    <span class="response-person">เพื่อน${i.gender} อายุ ${i.age} จากจังหวัด${i.area}</span><br><div class="spacer-big"></div>
-                    บอกว่า${pronoun}เจอเรื่อง <span class='response-topic'>"${i.topic}"</span> 
+                    <span class="response-person">เพื่อน${i.gender} อายุ ${i.age} ปี จาก${i.area}</span><br><div class="spacer-big"></div>
+                    ${pronoun}เคยเจอเรื่อง <span class='response-topic'>"${i.topic}"</span> 
                     ความเห็นของ${pronoun}คือ <span class='response-solution'>"${i.solution}"</span>
                     `
                 )
@@ -209,15 +209,18 @@ function convProcess(reqInput) {
         // Responses
         reqRes = [ 
             '<img src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี">', 
-            `สวัสดีจ๊ะ ดีใจที่ได้มาคุยกัน<br><br>หากมีเรื่องไม่สบายใจก็พิมพ์บอกพี่${botName}มาได้เลยนะ พี่จะใช้ความสามารถ AI ของพี่ไปดึงความเห็นของเพื่อนๆ ที่เค้าผ่านเรื่องนั้นมาได้แล้วออกมาให้นะ<br><span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement" target="_blank">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใครนะ`, 
-            `ไม่สบายใจเรื่องอะไรพิมพ์บอกพี่${botName}หน่อย<br><span class="help-text">ลองพิมพ์ <em>แอบชอบรุ่นพี่</em>, <em>เรียนไม่รู้เรื่อง</em>, <em>พ่อแม่ไม่เข้าใจ</em></span>`
+            `สวัสดีจ๊ะ ดีใจที่ได้มาคุยกัน
+            <div class="spacer-big"></div>
+            ถ้ามีเรื่องอะไรไม่สบายใจก็พิมพ์บอกกับพี่${botName}ได้เลยนะ พี่จะใช้ความสามารถ AI ของพี่ไปดึงวิธีการรับมือของเพื่อนๆ คนอื่นๆ ที่เคยเจอเรื่องคล้ายๆ กันมาให้นะ<br>
+            <span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement" target="_blank">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใคร`, 
+            `ไม่สบายใจเรื่องอะไรพิมพ์บอกพี่${botName}หน่อย<br><span class="help-text">ตัวอย่าง <em>ถูกบูลลี่</em>, <em>เครียดเรียนออนไลน์</em>, <em>เรียนไม่ทันเพื่อน</em>, <em>อกหัก</em>, <em>ครอบครัวกดดัน</em></span>`
         ]
 
         convRes()
     } else if (reqInput == 'เริ่มคุย' || (reqInput.match(regexGreeting) != null) || reqInput == 'เริ่มใหม่') {
         // Responses
         reqRes = [ 
-            `ไม่สบายใจเรื่องอะไรพิมพ์บอกพี่${botName}หน่อย<br><span class="help-text">ลองพิมพ์ <em>แอบชอบรุ่นพี่</em>, <em>เรียนไม่รู้เรื่อง</em>, <em>พ่อแม่ไม่เข้าใจ</em></span>`
+            `ไม่สบายใจเรื่องอะไรพิมพ์บอกพี่${botName}หน่อย<br><span class="help-text">ตัวอย่าง <em>ถูกบูลลี่</em>, <em>เครียดเรียนออนไลน์</em>, <em>เรียนไม่ทันเพื่อน</em>, <em>อกหัก</em>, <em>ครอบครัวกดดัน</em></span>`
         ]
 
         convRes()
