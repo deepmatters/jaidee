@@ -8,6 +8,75 @@ let resLengthCycle = 1  // Keeping track of message display cycle
 let resLengthProcessed = 0  // Keeping track of processed message in each cycle
 let searchMode = 1  // Search regex mode: 1 = strict, 2 = loose
 
+// Prep arrays of avatar images to be randomly choosen
+const baseImgUrl = 'https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/'
+
+const avatarMale = [
+    baseImgUrl + 'm01.svg', 
+    baseImgUrl + 'm02.svg', 
+    baseImgUrl + 'm03.svg', 
+    baseImgUrl + 'm04.svg', 
+    baseImgUrl + 'm05.svg', 
+    baseImgUrl + 'm06.svg', 
+    baseImgUrl + 'm07.svg', 
+    baseImgUrl + 'm08.svg', 
+    baseImgUrl + 'm09.svg', 
+    baseImgUrl + 'u01.svg', 
+    baseImgUrl + 'u02.svg', 
+    baseImgUrl + 'u03.svg', 
+    baseImgUrl + 'u04.svg', 
+    baseImgUrl + 'u05.svg', 
+    baseImgUrl + 'u06.svg', 
+]
+
+const avatarFemale = [
+    baseImgUrl + 'f01.svg', 
+    baseImgUrl + 'f02.svg', 
+    baseImgUrl + 'f03.svg', 
+    baseImgUrl + 'f04.svg', 
+    baseImgUrl + 'f05.svg', 
+    baseImgUrl + 'f06.svg', 
+    baseImgUrl + 'f07.svg', 
+    baseImgUrl + 'f08.svg', 
+    baseImgUrl + 'f09.svg', 
+    baseImgUrl + 'u01.svg', 
+    baseImgUrl + 'u02.svg', 
+    baseImgUrl + 'u03.svg', 
+    baseImgUrl + 'u04.svg', 
+    baseImgUrl + 'u05.svg', 
+    baseImgUrl + 'u06.svg', 
+]
+
+const avatarOther = [
+    baseImgUrl + 'm01.svg', 
+    baseImgUrl + 'm02.svg', 
+    baseImgUrl + 'm03.svg', 
+    baseImgUrl + 'm04.svg', 
+    baseImgUrl + 'm05.svg', 
+    baseImgUrl + 'm06.svg', 
+    baseImgUrl + 'm07.svg', 
+    baseImgUrl + 'm08.svg', 
+    baseImgUrl + 'm09.svg', 
+    baseImgUrl + 'u01.svg', 
+    baseImgUrl + 'u02.svg', 
+    baseImgUrl + 'u03.svg', 
+    baseImgUrl + 'u04.svg', 
+    baseImgUrl + 'u05.svg', 
+    baseImgUrl + 'u06.svg', 
+    baseImgUrl + 'f01.svg', 
+    baseImgUrl + 'f02.svg', 
+    baseImgUrl + 'f03.svg', 
+    baseImgUrl + 'f04.svg', 
+    baseImgUrl + 'f05.svg', 
+    baseImgUrl + 'f06.svg', 
+    baseImgUrl + 'u01.svg', 
+    baseImgUrl + 'u02.svg', 
+    baseImgUrl + 'u03.svg', 
+    baseImgUrl + 'u04.svg', 
+    baseImgUrl + 'u05.svg', 
+    baseImgUrl + 'u06.svg', 
+]
+
 // Search function
 function fetchSearch(reqInput) {
     fetch('/search/api', {
@@ -20,7 +89,7 @@ function fetchSearch(reqInput) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('All search objects: ', data)
+        // console.log('All search objects: ', data)
 
         // Set strict or loose mode according to data[0]
         if (data[0].mode == 2) {
@@ -32,6 +101,7 @@ function fetchSearch(reqInput) {
         reqRes = []  // Reset reqRes array
 
         let pronoun = ''
+        let avatarUrl = ''
 
         data.forEach(i => {
             if (i.result == 0) {  // If no result
@@ -41,14 +111,26 @@ function fetchSearch(reqInput) {
                     `
                 )
             } else {  // If there's result
+                // Prep pronoun and randomised avatar
                 if (i.gender == 'ชาย') {
                     pronoun = 'เขา'
+                    avatarUrl = avatarMale[Math.floor(Math.random()*avatarMale.length)]
+                } else if (i.gender == 'หญิง') {
+                    pronoun = 'เธอ'
+                    avatarUrl = avatarFemale[Math.floor(Math.random()*avatarFemale.length)]
                 } else {
                     pronoun = 'เธอ'
+                    avatarUrl = avatarOther[Math.floor(Math.random()*avatarOther.length)]
                 }
     
+                // Put all data into template and push as array
                 reqRes.push(
-                    `เพื่อน${i.gender} อายุ ${i.age} จากจังหวัด${i.area} บอกว่า${pronoun}เจอเรื่อง <span class='response-topic'>"${i.topic}"</span> ความเห็นของ${pronoun}คือ <span class='response-solution'>"${i.solution}"</span>`
+                    `
+                    <img class="avatar" src="${avatarUrl}" alt="เพื่อน${i.gender}">
+                    <span class="response-person">เพื่อน${i.gender} อายุ ${i.age} จากจังหวัด${i.area}</span><br><div class="spacer-big"></div>
+                    บอกว่า${pronoun}เจอเรื่อง <span class='response-topic'>"${i.topic}"</span> 
+                    ความเห็นของ${pronoun}คือ <span class='response-solution'>"${i.solution}"</span>
+                    `
                 )
             }
         })
@@ -95,7 +177,7 @@ function convReq(reqInput) {
     const childNodeClear = document.createElement('div')
 
     convNum += 1
-    console.log(`User input: (${convNum}) ${reqInput}`)
+    // console.log(`User input: (${convNum}) ${reqInput}`)
     childNode.setAttribute('id', convNum)
     childNode.setAttribute('class', 'conv-req')
     botConv.appendChild(childNode)
@@ -252,7 +334,7 @@ function convAddNotice() {
         childNode.setAttribute('class', 'conv-res-notice')
         botConv.appendChild(childNode)
         document.getElementById(`${convNum+1}`).innerHTML = `
-            พี่${botName}ไปค้นหาแล้วยังไม่พบข้อมูลทีใกล้เคียงกับเรื่องที่น้องพิมพ์มา ลองพิมพ์เรื่องอื่นมาได้นะ หรือลองพิมพ์ใหม่โดยเปลี่ยนคำหรือใช้ประโยคที่สั้นลง
+            พี่${botName}ไปค้นหาแล้วยังไม่พบข้อมูลที่ใกล้เคียงกับเรื่องที่น้องพิมพ์มา ลองพิมพ์เรื่องอื่นมาได้นะ หรือลองพิมพ์ใหม่โดยเปลี่ยนคำหรือใช้ประโยคที่สั้นลง
         `
     
         childNodeClear.setAttribute('class', 'clear')
@@ -367,8 +449,8 @@ function convRes() {
         })
     }
 
-    console.log('Conversation log:')
-    console.log(convLog)
+    // console.log('Conversation log:')
+    // console.log(convLog)
 }
 
 // Submit the input

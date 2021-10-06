@@ -521,6 +521,13 @@ img.logo-sqr {
     margin-bottom: -7px;
 }
 
+.conv-res img.avatar {
+    float: left;
+    width: auto;
+    height: 70px;
+    padding: 5px 15px 10px 5px;
+}
+
 .conv-res-notice {
     min-width: auto;
     max-width: 75%;
@@ -627,6 +634,11 @@ span.help-text {
 
 span.help-text a:link, span.help-text a:visited {
     color: #b3b3b3;
+}
+
+.response-person {
+    font-size: 0.9em;
+    color: #999999;
 }
 
 .response-topic {
