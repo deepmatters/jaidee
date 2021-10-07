@@ -110,23 +110,25 @@ a:hover, a:active {
 
 .continue a:link, .continue a:visited {
     color: #f2f2f2;
-    font-size: 0.9em;
+    font-size: 0.8em;
     text-decoration: none;
     border-bottom: none;
     border-radius: 8px;
-    background-color: #29548c;
-    padding: 10px;
+    background-color: #009CA7;
+    opacity: 0.8;
+    padding: 8px;
 }
 
 .continue a:hover, .continue a:active {
     color: #f2f2f2;
-    font-size: 0.9em;
+    font-size: 0.8em;
     text-decoration: none;
     border-bottom: none;
     border-radius: 8px;
-    background-color: #416390;
-    padding: 10px;
-    transition: background-color 0.3s;
+    background-color: #009CA7;
+    opacity: 1;
+    padding: 8px;
+    transition: opacity 0.5s;
 }
 
 .passed-zone {
@@ -460,6 +462,42 @@ img.logo-sqr {
     max-width: 15%;
     height: auto;
     padding: 15px;
+}
+
+/* Helper menu */
+
+.helper-menu {
+    position: fixed;
+    right: 0px;
+    top: 20vh;
+}
+
+.helper-menu-item {
+    font-size: 0.7em;
+    background-color: #ffffff;
+    opacity: 0.6;
+    padding: 8px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0px 0px 1px #cccccc;
+}
+
+.helper-menu-item:hover {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.helper-menu-item a:link, .helper-menu-item a:visited {
+    color: #009CA7;
+    text-decoration: none;
+    border-bottom: 0;
+}
+
+.helper-menu-item a:hover, .helper-menu-item a:active {
+    color: #009CA7;
+    text-decoration: none;
+    border-bottom: 0;
 }
 
 /* Chatbot */
