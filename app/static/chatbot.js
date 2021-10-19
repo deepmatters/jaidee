@@ -187,24 +187,6 @@ function convReq(reqInput) {
 
     childNodeClear.setAttribute('class', 'clear')
     botConv.appendChild(childNodeClear)
-    
-    // Add response thinking bubble while waiting for response
-    // To remove when getting fetch response
-    const childNodeBubble = document.createElement('div')
-    const childNodeBubbleClear = document.createElement('div')
-    
-    childNodeBubble.setAttribute('id', 'resBubble')
-    childNodeBubble.setAttribute('class', 'conv-res-bubble')
-    botConv.appendChild(childNodeBubble)
-    document.getElementById('resBubble').innerHTML = `
-        <div class="res-bubble"></div>
-        <div class="res-bubble"></div>
-        <div class="res-bubble"></div>
-    `
-
-    childNodeBubbleClear.setAttribute('id', 'resBubbleClear')
-    childNodeBubbleClear.setAttribute('class', 'clear')
-    botConv.appendChild(childNodeBubbleClear)
 
     // Scroll the botConv div into view
     childNodeClear.scrollIntoView()
@@ -252,6 +234,27 @@ function convProcess(reqInput) {
 
         convRes()
     } else {  // Fetch search back-end
+        // Add response thinking bubble while waiting for response
+        // To remove when getting fetch response
+        const childNodeBubble = document.createElement('div')
+        const childNodeBubbleClear = document.createElement('div')
+        
+        childNodeBubble.setAttribute('id', 'resBubble')
+        childNodeBubble.setAttribute('class', 'conv-res-bubble')
+        botConv.appendChild(childNodeBubble)
+        document.getElementById('resBubble').innerHTML = `
+            <div class="res-bubble"></div>
+            <div class="res-bubble"></div>
+            <div class="res-bubble"></div>
+        `
+
+        childNodeBubbleClear.setAttribute('id', 'resBubbleClear')
+        childNodeBubbleClear.setAttribute('class', 'clear')
+        botConv.appendChild(childNodeBubbleClear)
+
+        // Scroll the botConv div into view
+        childNodeBubbleClear.scrollIntoView()
+
         // Prep intervention flag if any
         if (reqInput.match(regexSuicide) != null) {
             interventionFlag = 'suicide'
