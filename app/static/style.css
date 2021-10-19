@@ -566,6 +566,33 @@ img.logo-sqr {
     padding: 5px 15px 10px 5px;
 }
 
+@keyframes fadeinout {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.conv-res-bubble {
+    min-width: auto;
+    max-width: 75%;
+    float: left;
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.res-bubble {
+    display: inline-block;
+    vertical-align: middle;
+    width: 5px;
+    height: 5px;
+    background: #cccccc;
+    border-radius: 50%;
+    animation: fadeinout ease 0.7s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+}
+
 .conv-res-notice {
     min-width: auto;
     max-width: 75%;

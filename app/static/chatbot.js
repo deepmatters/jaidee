@@ -89,7 +89,9 @@ function fetchSearch(reqInput) {
     })
     .then(response => response.json())
     .then(data => {
-        // console.log('All search objects: ', data)
+        // Remove thinking bubble
+        document.getElementById('resBubble').remove()
+        document.getElementById('resBubbleClear').remove()
 
         // Set strict or loose mode according to data[0]
         if (data[0].mode == 2) {
@@ -186,6 +188,24 @@ function convReq(reqInput) {
     childNodeClear.setAttribute('class', 'clear')
     botConv.appendChild(childNodeClear)
     
+    // Add response thinking bubble while waiting for response
+    // To remove when getting fetch response
+    const childNodeBubble = document.createElement('div')
+    const childNodeBubbleClear = document.createElement('div')
+    
+    childNodeBubble.setAttribute('id', 'resBubble')
+    childNodeBubble.setAttribute('class', 'conv-res-bubble')
+    botConv.appendChild(childNodeBubble)
+    document.getElementById('resBubble').innerHTML = `
+        <div class="res-bubble"></div>
+        <div class="res-bubble"></div>
+        <div class="res-bubble"></div>
+    `
+
+    childNodeBubbleClear.setAttribute('id', 'resBubbleClear')
+    childNodeBubbleClear.setAttribute('class', 'clear')
+    botConv.appendChild(childNodeBubbleClear)
+
     // Scroll the botConv div into view
     childNodeClear.scrollIntoView()
 
