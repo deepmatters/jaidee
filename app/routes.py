@@ -295,6 +295,11 @@ def search_api():
         client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
         db = client.jaidee
 
+        """
+        'topic' COLUMN is INDEXED. If the db is updated, 
+        may need to DROP and CREATE topic index.
+        """
+        
         # Find the db using the given regex
         data = []
 
