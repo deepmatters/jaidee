@@ -132,16 +132,16 @@ a:hover, a:active {
 }
 
 .passed-zone {
-    background-color: #ebf1f9;
+    background-color: #e6fdff;
+    border: 2px solid #009CA7;
     padding: 5px 15px;
-    border: 1px solid #b0c8e8;
     border-radius: 8px;
 }
 
 .caution-zone {
-    background-color: #fbe9ea;
+    background-color: #ffe6ef;
+    border: 2px solid #ff7bac;
     padding: 5px 15px;
-    border: 1px solid #efa9ac;
     border-radius: 8px;
 }
 
