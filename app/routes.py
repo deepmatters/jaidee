@@ -264,6 +264,15 @@ def gender_convert(gender):
     else:
         return ' LGBTQ'
 
+# Function to save search_record using thread
+def search_record_insert(app, record):
+    with app.app_context():
+        # Connect and define the database
+        client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+        mongodb = client.jaidee
+
+        mongodb.search_record.insert_one(record)
+
 @app.route('/search/api', methods=('GET', 'POST'))
 def search_api():
     if request.method == 'POST':
@@ -293,7 +302,7 @@ def search_api():
 
         # Connect and define the database
         client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
-        db = client.jaidee
+        mongodb = client.jaidee
 
         """
         'topic' COLUMN is INDEXED. If the db is updated, 
@@ -303,7 +312,7 @@ def search_api():
         # Find the db using the given regex
         data = []
 
-        for result in db.solution.find({'topic': {'$regex': regex_and}}):
+        for result in mongodb.solution.find({'topic': {'$regex': regex_and}}):
             data.append({
                 "gender": gender_convert(result['gender']), 
                 "age": result['age'], 
@@ -313,6 +322,16 @@ def search_api():
                 "mode": 1  # 1 means strict mode
             })
 
+        # Insert search term and result count into MongoDB
+        record = {
+            'datetime': datetime.now(), 
+            'search_term': input_request['request'], 
+            'result_count': len(data)
+        }
+        
+        Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
+
+        # Output the data
         if len(data) > 0:  # If there's at least one result
             # Random shuffle data list
             random.shuffle(data)
@@ -322,7 +341,7 @@ def search_api():
 
             return jsonify(data)
         else:  # If no result, use OR regex
-            for result in db.solution.find({'topic': {'$regex': regex_or}}):
+            for result in mongodb.solution.find({'topic': {'$regex': regex_or}}):
                 data.append({
                     "gender": gender_convert(result['gender']), 
                     "age": result['age'], 
