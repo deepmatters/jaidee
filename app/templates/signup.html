@@ -3,20 +3,20 @@
 {% block content %}
 <div class="main-wrapper">
     <div class="login-wrapper">
-        <h1>สมัครสมาชิก</h1>
-        <p>สำหรับผู้ดูแลระบบเท่านั้น</p>
-        <form method="POST" action="/signup">
-            {{ form.csrf_token }}
-            <div class="input-wrapper">
+        <div class="input-wrapper">
+            <h1>สมัครสมาชิก</h1>
+            <p>สำหรับผู้ดูแลระบบเท่านั้น</p>
+            <form method="POST" action="/signup">
+                {{ form.csrf_token }}
                 {{ form.name(size=23, placeholder="ชื่อ-นามสกุล", autofocus=true) }}<br>
                 {{ form.email(size=23, placeholder="อีเมล") }}<br>
                 {{ form.password(size=23, placeholder="รหัสผ่านที่ต้องการใช้") }}<br>
                 {{ form.password_check(size=23, placeholder="ยืนยันรหัสผ่านเหมือนข้างบน") }}<br>
-            </div>
-            <div class="button-wrapper">
-                {{ form.submit(class_="button") }}
-            </div>
-        </form>
+                <div class="button-wrapper">
+                    {{ form.submit(class_="button") }}
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

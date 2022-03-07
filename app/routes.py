@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, jsonify, json
 from app import app, db, mail
-from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, Chatbot
+from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, Chatbot, DonateForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from flask_mail import Message
@@ -367,6 +367,39 @@ def search_api():
 
                 return jsonify(data)
 
+# Function to insert feedback to MongoDB using thread
+def send_feedback(app, data_dict):
+    with app.app_context():
+        # Connect and define the database
+        client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+        mongodb = client.jaidee
+
+        mongodb.donate.insert_one(data_dict)
+
+@app.route('/feedback/api', methods=('GET', 'POST'))
+def feedback_api():
+    if request.method == 'POST':
+        # Connect and define the database
+        client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+        mongodb = client.jaidee
+
+        # Get request JSON and parse as dict
+        input_request = request.get_json()
+
+        # Prepare datetime object
+        now = datetime.now()
+
+        # Prepare data dict to record to MongoDB
+        data_dict = {
+            "record_date": now, 
+            "score": input_request['score']
+        }
+
+        # Insert the document
+        mongodb.feedback.insert_one(data_dict)
+
+        return jsonify({"status": "posted"})
+
 """
 Static
 """
@@ -375,6 +408,34 @@ Static
 def about():
     return render_template('about.html')
 
-@app.route('/donate')
+@app.route('/donate', methods=('GET', 'POST'))
 def donate():
-    return render_template('donate.html')
+    form = DonateForm()
+
+    if form.validate_on_submit():
+        # Get data from form
+        topic = form.topic.data
+        solution = form.solution.data
+        age = form.age.data
+        gender = form.gender.data
+        province = form.province.data
+
+        # Prepare datetime object
+        now = datetime.now()
+
+        # Prepare data dict to record to MongoDB
+        data_dict = {
+            "record_date": now, 
+            "topic": topic, 
+            "solution": solution, 
+            "age": age, 
+            "gender": gender, 
+            "province": province
+        }
+
+        Thread(target=send_feedback, args=(app, data_dict)).start()  # Send feedback asynchronously
+
+        flash("ส่งข้อมูลบริจาคประสบการณ์เรียบร้อยแล้ว พี่ใจดีขอบคุณนะ")
+        return redirect('/')
+    else:
+        return render_template('donate.html', form=form)

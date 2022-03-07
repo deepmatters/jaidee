@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields.html5 import EmailField, URLField
-from wtforms.fields import PasswordField, SubmitField, StringField, RadioField, TextAreaField, BooleanField, IntegerField, DecimalField
+from wtforms.fields.html5 import EmailField, URLField, IntegerField
+from wtforms.fields import PasswordField, SubmitField, StringField, RadioField, TextAreaField, BooleanField, DecimalField
 from wtforms.validators import DataRequired
 from flask_pagedown.fields import PageDownField
 
@@ -34,3 +34,15 @@ class PasswordResetForm(FlaskForm):
 
 class Chatbot(FlaskForm):
     input_request = StringField('Input')
+
+class DonateForm(FlaskForm):
+    topic = TextAreaField('ตอนเป็นวัยรุ่น ท่านมีความเครียด ความกังวล หรือความทุกข์เรื่องใดมากที่สุด เขียนเล่าคร่าวๆ')
+    solution = TextAreaField('ท่านแก้ปัญหาเรื่องข้างบนอย่างไร')
+    age = IntegerField('ปัจจุบันท่านอายุเท่าใด')
+    gender = RadioField('เพศ: ', choices=[
+        ("male", "ชาย"), 
+        ("female", "หญิง"), 
+        ("other", "อื่นๆ")
+    ], default="male")
+    province = StringField('อาศัยอยู่จังหวัดอะไร')
+    submit = SubmitField('ส่งข้อมูล')

@@ -7,7 +7,75 @@
             <p><a href="/">< กลับไปหน้าแรก</a></p>
             <div class="spacer-big"></div>
             <h1>บริจาคประสบการณ์</h1>
-            <p>จะเปิดให้บริการเร็วๆ นี้</p>
+            <h2 class="em">ให้ประสบการณ์ของท่านได้ช่วยเหลือน้องๆ ผ่านแชทบอทใจดี</h2>
+            <p>แชทบอทใจดีให้คำแนะนำน้องๆ ที่มีปัญหาชีวิตด้านต่างๆ ผ่านการเชื่อมโยงประสบการณ์ของพี่ๆ ที่เคยผ่านเรื่องแย่ๆ มาแล้ว ท่านสามารถร่วมเป็นส่วนหนึ่งของการช่วยเหลือได้ด้วยการ<span class="blue-em">บริจาคประสบการณ์</span>ของท่าน เพียงให้ข้อมูลตามฟอร์มด้านล่างนี้ เราจะนำประสบการณ์ของท่านเข้าสู่ฐานข้อมูลประสบการณ์ของแชทบอทใจดี โดยน้องๆ ที่มาคุยกับแชทบอทจะมีโอกาสเห็นประสบการณ์ของท่านเมื่อเขามาปรึกษาเรื่องที่ตรงกัน</p>
+            <img class="donate-example-left" src="/static/donate-example1.png" alt="ตัวอย่างการบริจาคประสบการณ์ 1">
+            <img class="donate-example-right" src="/static/donate-example2.png" alt="ตัวอย่างการบริจาคประสบการณ์ 2">
+            <img class="donate-example-left" src="/static/donate-example3.png" alt="ตัวอย่างการบริจาคประสบการณ์ 3">
+            <br>
+            <form method="POST" action="/donate">
+                {{ form.csrf_token }}
+                <div class="input-wrapper">
+                    <p>
+                        {{ form.topic.label }}
+                        {{ form.topic() }}
+                        {% if form.topic.errors %}
+                            <ul>
+                                {% for error in form.topic.errors %}
+                                <li><span class="red-em">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                            <div class="spacer-big"></div>
+                        {% endif %}
+                    </p>
+                    <p>
+                        {{ form.solution.label }}
+                        {{ form.solution() }}
+                        {% if form.solution.errors %}
+                            <ul>
+                                {% for error in form.solution.errors %}
+                                <li><span class="red-em">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                            <div class="spacer-big"></div>
+                        {% endif %}
+                    </p>
+                    <p>
+                        {{ form.age.label }}
+                        {{ form.age() }}
+                        {% if form.age.errors %}
+                            <ul>
+                                {% for error in form.age.errors %}
+                                <li><span class="red-em">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                            <div class="spacer-big"></div>
+                        {% endif %}
+                    </p>
+                    <p>
+                        {{ form.gender.label }}
+                        {% for choice in form.gender %}
+                            {{ choice }} {{ choice.label}}
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.province.label }}
+                        {{ form.province() }}
+                        {% if form.province.errors %}
+                            <ul>
+                                {% for error in form.province.errors %}
+                                <li><span class="red-em">{{ error }}</span></li>
+                                {% endfor %}
+                            </ul>
+                            <div class="spacer-big"></div>
+                        {% endif %}
+                    </p>
+                    <p class="gray-small">ความเป็นส่วนตัวของข้อมูล: ระบบจะไม่รู้และไม่บันทึกข้อมูลที่ทำให้ระบุตัวตนของท่านได้ ท่านจึงมั่นใจได้ว่าข้อมูลที่ให้มาจะถูกนำไปให้แชทบอทเชื่อมโยงให้คำแนะนำน้องๆ ที่กำลังเจอปัญหาคล้ายกัน โดยท่านไม่ได้เปิดเผยตัวตน</p>
+                    <div class="button-wrapper">
+                        {{ form.submit(class_="button") }}
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </main>

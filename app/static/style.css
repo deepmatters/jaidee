@@ -40,7 +40,6 @@ html, body {
 
 .login-wrapper {
     margin: auto;
-    width: 250px;
 }
 
 .login-wrapper h1, .login-wrapper p {
@@ -59,6 +58,12 @@ h2 {
     line-height: 1.3em;
 }
 
+h2.em {
+    font-size: 1.25em;
+    line-height: 1.3em;
+    color: #ff7bac;
+}
+
 h3 {
     font-size: 1.1em;
     line-height: 1.3em;
@@ -69,8 +74,28 @@ img {
     height: auto;
 }
 
+img.donate-example-left {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+img.donate-example-right {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin-left: auto;
+}
+
 hr {
     border: 1px solid #cccccc;
+}
+
+.gray-small {
+    color: #808080;
+    font-size: 0.8em;
 }
 
 .spacer-small {
@@ -88,6 +113,10 @@ hr {
 
 .align-right {
     text-align: right;
+}
+
+.align-center {
+    text-align: center;
 }
 
 .flex-break {
@@ -220,8 +249,12 @@ td {
 /* Input and Form */
 
 .input-wrapper {
+    background-color: #ffffff;
     display: table;
     margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 3px #cccccc;
 }
 
 .instruction {
@@ -255,19 +288,26 @@ label {
 }
 
 input {
+    border: 1px solid #cccccc;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 20px;
-    border: none;
+    accent-color: #FF7BAC;
 }
 
 input[type="radio"] {
+    display: block;
+    float: left;
     margin: 5px 10px 10px 10px;
 }
 
 textarea {
-    width: 640px;
-    height: 200px;
+    border: 1px solid #cccccc;
+    width: 90%;
+    height: 120px;
+    padding: 10px;
+    border-radius: 8px;
+    accent-color: #FF7BAC;
 }
 
 .text-gray {
@@ -476,11 +516,14 @@ img.donors {
 
 .helper-menu {
     position: fixed;
+    text-align: right;
     right: 0px;
     top: 20vh;
 }
 
 .helper-menu-item {
+    display: inline-block;
+    text-align: right;
     font-size: 0.7em;
     background-color: #ffffff;
     opacity: 0.6;
@@ -733,18 +776,9 @@ span.help-text a:link, span.help-text a:visited {
 /* Media sizing */
 
 @media screen and (max-width: 1024px) {
-    textarea {
-        width: 600px;
-        height: 180px;
-    }
 }
 
 @media screen and (max-width: 800px) {
-    textarea {
-        width: 480px;
-        height: 160px;
-    }
-
     .header-logo-block {
         flex: 1 1 10%;
         padding-top: 15px;
@@ -780,11 +814,6 @@ span.help-text a:link, span.help-text a:visited {
 }
 
 @media screen and (max-width: 600px) {
-    textarea {
-        width: 320px;
-        height: 120px;
-    }
-
     .header-logo-block {
         flex: 1 1 15%;
         padding-top: 15px;
@@ -838,11 +867,6 @@ span.help-text a:link, span.help-text a:visited {
 }
 
 @media screen and (max-width: 400px) {
-    textarea {
-        width: 280px;
-        height: 100px;
-    }
-
     .req-wrapper {
         width: 83%;
     }

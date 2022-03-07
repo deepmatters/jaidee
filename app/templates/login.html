@@ -3,19 +3,19 @@
 {% block content %}
 <div class="main-wrapper">
     <div class="login-wrapper">
-        <h1>ล็อกอิน</h1>
-        <p>สำหรับผู้ดูแลระบบเท่านั้น</p>
-        <form method="POST" action="/login">
-            {{ form.csrf_token }}
-            <div class="input-wrapper">
+        <div class="input-wrapper">
+            <h1>ล็อกอิน</h1>
+            <p>สำหรับผู้ดูแลระบบเท่านั้น</p>
+            <form method="POST" action="/login">
+                {{ form.csrf_token }}
                 {{ form.email(size=23, placeholder="อีเมล", autofocus=true) }}<br>
                 {{ form.password(size=23, placeholder="รหัสผ่าน") }}<br>
-            </div>
-            <div class="button-wrapper">
-                {{ form.submit(class_="button") }}
-            </div>
-        </form>
-        <p>[ <a href="/signup">สมัครสมาชิกใหม่</a> ]</p>
+                <div class="button-wrapper">
+                    {{ form.submit(class_="button") }}
+                </div>
+            </form>
+        </div>
+       
         <p>[ <a href="/forget">ลืมรหัสผ่าน</a> ]</p>
     </div>
 </div>

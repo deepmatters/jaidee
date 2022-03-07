@@ -17,7 +17,15 @@
     <meta name="keywords" content="ใจดี, แชทบอท, เด็ก, วัยรุ่น, สนับสนุน, ช่วยเหลือ, ตัวกลาง, เชื่อมโยง, แพลตฟอร์ม">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <title>แชทบอทใจดี</title>
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+    <meta property="og:image" content="{{ url_for('static', filename='jaidee-logo.png') }}">
+    {% if request.path.split('/')[1] == 'about' %}
+        <title>แชทบอทใจดี | เกี่ยวกับใจดี</title>
+    {% elif request.path.split('/')[1] == 'donate' %}
+        <title>แชทบอทใจดี | บริจาคประสบการณ์</title>   
+    {% else %}
+        <title>แชทบอทใจดี</title> 
+    {% endif %}
 </head>
 <body>
     <div class="body-wrapper">
