@@ -296,9 +296,10 @@ input {
 }
 
 input[type="radio"] {
-    display: block;
     float: left;
-    margin: 5px 10px 10px 10px;
+    margin: 6px;
+    padding: 5px;
+    vertical-align: baseline;
     clear: both;
 }
 
