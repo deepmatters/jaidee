@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
-    <meta property="og:image" content="{{ url_for('static', filename='jaidee-logo.png') }}">
+    <meta property="og:image" content="{{ url_for('static', filename='chatbotjaidee-logo-padded.png') }}">
     {% if request.path.split('/')[1] == 'about' %}
         <title>แชทบอทใจดี | เกี่ยวกับใจดี</title>
     {% elif request.path.split('/')[1] == 'donate' %}
@@ -41,7 +41,7 @@
         <header>
             <div class="header-flex-wrap">
                 <div class="header-logo-block">
-                    <a href="/"><img src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี"></a>
+                    <a href="/"><img src="/static/jaidee-botlogo.svg" alt="แชทบอทใจดี"></a>
                 </div>
                 <div class="header-text-block">
                     <p>แชทบอทใจดี</p>
