@@ -450,6 +450,23 @@ textarea {
     transition: color 0.3s;
 }
 
+.nav-item-external {
+    display: inline-block;
+    font-size: 0.9em;
+    padding: 31px 8px;
+}
+
+.nav-item-external a:link, .nav-item-external a:visited {
+    color: #009CA7;
+    border-bottom: none;
+}
+
+.nav-item-external a:hover, .nav-item-external a:active {
+    color: #009CA7;
+    border-bottom: none;
+    transition: color 0.3s;
+}
+
 /* Main content area */
 
 .main-wrapper {

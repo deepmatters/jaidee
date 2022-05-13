@@ -20,11 +20,11 @@
     <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
     <meta property="og:image" content="{{ url_for('static', filename='chatbotjaidee-logo-padded.png') }}">
     {% if request.path.split('/')[1] == 'about' %}
-        <title>แชทบอทใจดี | เกี่ยวกับใจดี</title>
+        <title>ใจดีแชทบอท | เกี่ยวกับใจดี</title>
     {% elif request.path.split('/')[1] == 'donate' %}
-        <title>แชทบอทใจดี | บริจาคประสบการณ์</title>   
+        <title>ใจดีแชทบอท | บริจาคประสบการณ์</title>   
     {% else %}
-        <title>แชทบอทใจดี</title> 
+        <title>ใจดีแชทบอท</title> 
     {% endif %}
 </head>
 <body>
@@ -41,23 +41,25 @@
         <header>
             <div class="header-flex-wrap">
                 <div class="header-logo-block">
-                    <a href="/"><img src="/static/jaidee-botlogo.svg" alt="แชทบอทใจดี"></a>
+                    <a href="/"><img src="/static/jaidee-botlogo.svg" alt="ใจดี"></a>
                 </div>
                 <div class="header-text-block">
-                    <p>แชทบอทใจดี</p>
-                    <span>beta</span>
+                    <p>ใจดี</p>
+                    <span>Chatbot</span>
                 </div>
                 <div class="header-nav-toggle">
                     <button type="button" id="menuToggle" class="button-menu-toggle" onclick="menuReveal()">< เมนู</button>
                 </div>
                 <div id="menuMobile" class="header-nav-mobile" style="display:none">
-                    <p class="nav-item-mobile"><a href="/about">พี่ใจดีแนะนำตัว</a></p><p class="nav-item-mobile"><a href="/donate">บริจาคประสบการณ์</a></p>
+                    <p class="nav-item-mobile"><a href="/about">พี่ใจดีแนะนำตัว</a></p>
+                    <p class="nav-item-mobile"><a href="/donate">บริจาคประสบการณ์</a></p>
                     {% if not current_user.is_authenticated %}
                         <p class="nav-item-mobile"><a href="/login">ล็อกอิน</a></p>
                     {% else%}
                         <p class="nav-item-mobile"><a href="/profile">โปรไฟล์ของฉัน</a></p>
                         <p class="nav-item-mobile"><a href="/logout">ออกจากระบบ</a></p>
                     {% endif %}
+                    <p class="nav-item-mobile"><a href="https://learning.chatbotjaidee.com/">ใจดี Learning <sub>&#8618;</sub></a></p>
                 </div>
                 <div class="header-nav-block">
                     <span class="nav-item"><a href="/about">พี่ใจดีแนะนำตัว</a></span>
@@ -68,6 +70,7 @@
                         <span class="nav-item"><a href="/profile">โปรไฟล์ของฉัน</a></span>
                         <span class="nav-item"><a href="/logout">ออกจากระบบ</a></span>
                     {% endif %}
+                    <span class="nav-item-external"><a href="https://learning.chatbotjaidee.com/">ใจดี Learning <sub>&#8618;</sub></a></span>
                 </div>
             </div>
         </header>
