@@ -408,6 +408,10 @@ Static
 def about():
     return render_template('about.html')
 
+"""
+Donate
+"""
+
 @app.route('/donate', methods=('GET', 'POST'))
 def donate():
     form = DonateForm()
@@ -435,7 +439,24 @@ def donate():
 
         Thread(target=send_feedback, args=(app, data_dict)).start()  # Send feedback asynchronously
 
-        flash("ส่งข้อมูลบริจาคประสบการณ์เรียบร้อยแล้ว พี่ใจดีขอบคุณนะ")
-        return redirect('/')
+        # Issue a cert
+        # Connect to certificate collection in db
+        client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+        cert_db = client.jaidee
+
+        # Generate hash as cert_id
+        rand_universe = [1,2,3,4,5,6,7,8,9,"a","b","c","d","e","f","g","A","B","C","D","E","F","G"]
+        rand_str = ""
+        rand_list = random.sample(rand_universe, k=12)
+        cert_id = rand_str.join([str(i) for i in rand_list])
+
+        # Inser cert_id in cert db (MongoDB)
+        cert_db.jaidee_cert.insert_one({"hash": cert_id})
+
+        return redirect(f'/donated/{cert_id}')
     else:
         return render_template('donate.html', form=form)
+
+@app.route('/donated/<string:cert_id>')
+def donated(cert_id):
+    return render_template('donated.html', cert_id=cert_id)
