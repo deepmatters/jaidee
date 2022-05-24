@@ -105,37 +105,75 @@ function fetchSearch(reqInput) {
         let pronoun = ''
         let avatarUrl = ''
 
-        data.forEach(i => {
-            if (i.result == 0) {  // If no result
-                reqRes.push(
-                    `
-                        พี่${botName}ยังไม่มีข้อมูลที่ตรงกับที่น้องพิมพ์มา ลองพิมพ์ใหม่โดยเปลี่ยนคำหรือใช้ประโยคที่สั้นลงนะคะ
-                    `
-                )
-            } else {  // If there's result
-                // Prep pronoun and randomised avatar
-                if (i.gender == 'ผู้ชาย') {
-                    pronoun = 'ผม'
-                    avatarUrl = avatarMale[Math.floor(Math.random()*avatarMale.length)]
-                } else if (i.gender == 'ผู้หญิง') {
-                    pronoun = 'เรา'
-                    avatarUrl = avatarFemale[Math.floor(Math.random()*avatarFemale.length)]
-                } else {
-                    pronoun = 'เรา'
-                    avatarUrl = avatarOther[Math.floor(Math.random()*avatarOther.length)]
+        if (searchMode == 2) {  // If loose mode
+            // Bot will add convResNotice as a special loose mode notice here 
+            reqRes.push(
+                `หรือลองกดเลือกหัวข้อดู<br>
+                <div class="rich-response">
+                    <button class="req-rich" onclick="convReq('เกรดไม่ดี')">เกรดไม่ดี</button>
+                    <button class="req-rich" onclick="convReq('เรียนไม่ทัน')">เรียนไม่ทัน</button>
+                    <button class="req-rich" onclick="convReq('เรียนต่อ')">เรียนต่อ</button>
+                    <button class="req-rich" onclick="convReq('ทุนการศึกษา')">ทุนการศึกษา</button>
+                    &nbsp;&#8226;&nbsp;
+                    <button class="req-rich" onclick="convReq('พ่อแม่ไม่รับฟัง')">พ่อแม่ไม่รับฟัง</button>
+                    <button class="req-rich" onclick="convReq('เป็น LGBT')">เป็น LGBT</button>
+                    <button class="req-rich" onclick="convReq('ทะเลาะกับที่บ้าน')">ทะเลาะกับที่บ้าน</button>
+                    <button class="req-rich" onclick="convReq('โดนเปรียบเทียบ')">โดนเปรียบเทียบ</button>
+                    &nbsp;&#8226;&nbsp;
+                    <button class="req-rich" onclick="convReq('อยากมีแฟน')">อยากมีแฟน</button>
+                    <button class="req-rich" onclick="convReq('แอบชอบ')">แอบชอบ</button>
+                    <button class="req-rich" onclick="convReq('แฟนนอกใจ')">แฟนนอกใจ</button>
+                    <button class="req-rich" onclick="convReq('แฟนบอกเลิก')">แฟนบอกเลิก</button>
+                    &nbsp;&#8226;&nbsp;
+                    <button class="req-rich" onclick="convReq('โดนเพื่อนแกล้ง')">โดนเพื่อนแกล้ง</button>
+                    <button class="req-rich" onclick="convReq('ถูกบูลลี่')">ถูกบูลลี่</button>
+                    <button class="req-rich" onclick="convReq('ทะเลาะกับเพื่อน')">ทะเลาะกับเพื่อน</button>
+                    <button class="req-rich" onclick="convReq('เข้ากับเพื่อนไม่ได้')">เข้ากับเพื่อนไม่ได้</button>
+                    &nbsp;&#8226;&nbsp;
+                    <button class="req-rich" onclick="convReq('เครียด')">เครียด</button>
+                    <button class="req-rich" onclick="convReq('คิดมาก')">คิดมาก</button>
+                    <button class="req-rich" onclick="convReq('ซึมเศร้า')">ซึมเศร้า</button>
+                    <button class="req-rich" onclick="convReq('ไม่อยากอยู่ต่อไปแล้ว')">ไม่อยากอยู่ต่อไปแล้ว</button>
+                    &nbsp;&#8226;&nbsp;
+                    <button class="req-rich" onclick="convReq('เงินไม่พอใช้')">เงินไม่พอใช้</button>
+                    <button class="req-rich" onclick="convReq('ไม่มีเงินเรียน')">ไม่มีเงินเรียน</button>
+                    <button class="req-rich" onclick="convReq('ทุนการศึกษา')">ทุนการศึกษา</button>
+                    <button class="req-rich" onclick="convReq('หางาน')">หางาน</button>
+                </div>`
+            )
+        } else if (searchMode == 1) {  // If normal mode
+            data.forEach(i => {
+                if (i.result == 0) {  // If no result
+                    reqRes.push(
+                        `
+                            พี่${botName}ยังไม่มีข้อมูลที่ตรงกับที่น้องพิมพ์มา ลองพิมพ์ใหม่โดยเปลี่ยนคำหรือใช้ประโยคที่สั้นลงนะคะ
+                        `
+                    )
+                } else {  // If there's result
+                    // Prep pronoun and randomised avatar
+                    if (i.gender == 'ผู้ชาย') {
+                        pronoun = 'ผม'
+                        avatarUrl = avatarMale[Math.floor(Math.random()*avatarMale.length)]
+                    } else if (i.gender == 'ผู้หญิง') {
+                        pronoun = 'เรา'
+                        avatarUrl = avatarFemale[Math.floor(Math.random()*avatarFemale.length)]
+                    } else {
+                        pronoun = 'เรา'
+                        avatarUrl = avatarOther[Math.floor(Math.random()*avatarOther.length)]
+                    }
+        
+                    // Put all data into template and push as array
+                    reqRes.push(
+                        `
+                        <img class="avatar" src="${avatarUrl}" alt="เพื่อน${i.gender}">
+                        <span class="response-person">เพื่อน${i.gender} อายุ ${i.age} ปี จาก${i.area}</span><br><div class="spacer-big"></div>
+                        ${pronoun}เคยเจอเรื่อง <span class='response-topic'>"${i.topic}"</span> 
+                        ความเห็นของ${pronoun}คือ <span class='response-solution'>"${i.solution}"</span>
+                        `
+                    )
                 }
-    
-                // Put all data into template and push as array
-                reqRes.push(
-                    `
-                    <img class="avatar" src="${avatarUrl}" alt="เพื่อน${i.gender}">
-                    <span class="response-person">เพื่อน${i.gender} อายุ ${i.age} ปี จาก${i.area}</span><br><div class="spacer-big"></div>
-                    ${pronoun}เคยเจอเรื่อง <span class='response-topic'>"${i.topic}"</span> 
-                    ความเห็นของ${pronoun}คือ <span class='response-solution'>"${i.solution}"</span>
-                    `
-                )
-            }
-        })
+            })
+        }
 
         convRes()  // Call convRes to create front-end response
     })
@@ -241,8 +279,8 @@ function convProcess(reqInput) {
             '<img src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี">', 
             `สวัสดีจ๊ะ ดีใจที่ได้มาคุยกัน
             <div class="spacer-big"></div>
-            ถ้ามีเรื่องอะไรไม่สบายใจก็พิมพ์บอกกับพี่${botName}ได้เลยนะ พี่จะใช้ความสามารถ AI ของพี่ไปดึงวิธีการรับมือของเพื่อนๆ คนอื่นๆ ที่เคยเจอเรื่องคล้ายๆ กันมาให้นะ<br>
-            <span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement" target="_blank">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใคร`, 
+            ถ้ามีเรื่องอะไรไม่สบายใจก็พิมพ์บอกกับพี่${botName}ได้เลยนะ พี่จะไปดึงประสบการณ์วิธีการรับมือของเพื่อนๆ คนอื่นๆ ที่เคยเจอเรื่องคล้ายๆ กันมาให้ดู<br>
+            <span class="help-text">เรื่องที่คุยกับแชทบอทใจดีจะ <a href="/about#privacy-statement">เป็นความลับ</a> แชทบอทจะไม่บันทึกข้อมูลส่วนตัวและไม่รู้ว่าผู้ใช้เป็นใคร`, 
             `ไม่สบายใจเรื่องอะไร กดบอกพี่${botName}หน่อย<br>
             <div class="rich-response">
                 <button class="req-rich" onclick="convReq('ความรัก')">ความรัก</button>
@@ -278,7 +316,7 @@ function convProcess(reqInput) {
     } else if (reqInput.match(regexEnd) != null) {
         reqRes = [
             'ขอบคุณสำหรับความเห็นนะ', 
-            `รู้ไหมว่าน้องสามารถช่วยเหลือเพื่อนๆ ที่มาปรึกษาปัญหากับพี่${botName}ได้ โดยการ <a href="/donate">บริจาคประสบการณ์</a> ที่เราเคยผ่านเรื่องแย่ๆ ไปได้ พี่${botName}จะเป็นตัวกลางส่งต่อประสบการณ์ของน้องให้เพื่อนๆ ที่เจอปัญหาคล้ายๆ กัน (ปล. บริจาคแล้วได้ประกาศนียบัตรจิตอาสาบริจาคประสบการณ์ จาก สสส. ด้วยนะ)`, 
+            `รู้ไหมว่าน้องสามารถช่วยเหลือเพื่อนๆ ที่มาคุยกับพี่${botName}ได้ โดยการ <a href="/donate">บริจาคประสบการณ์</a> ที่เราเคยผ่านเรื่องแย่ๆ ไปได้ พี่${botName}จะเป็นตัวกลางส่งต่อประสบการณ์ของน้องให้เพื่อนๆ ที่เจอปัญหาคล้ายๆ กัน (ปล. บริจาคแล้วได้ประกาศนียบัตรจิตอาสาบริจาคประสบการณ์ จาก สสส. ด้วยนะ)`, 
             `น้องสามารถคุยกับพี่${botName}ใหม่ได้ตลอดเวลา เพียงกด "เริ่มคุยใหม่" ด้านขวามือ หรือโหลดหน้านี้ใหม่`
         ]
 
