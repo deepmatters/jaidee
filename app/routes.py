@@ -13,6 +13,7 @@ from threading import Thread
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tag import pos_tag
 import re
+from itertools import permutations
 
 @app.route('/')
 def home():
@@ -273,6 +274,25 @@ def search_record_insert(app, record):
 
         mongodb.search_record.insert_one(record)
 
+# Function to create a permuted regex from a list of words
+def regex_create(condition):
+    permuted_list = list(permutations(condition))
+
+    joined_list = []
+    all_joined = []
+
+    for i in permuted_list:
+        joined_string = '.*'.join(i)
+        joined_list.append(joined_string)
+
+    joined_or = '|'.join(joined_list)
+
+    all_joined.append(joined_or)
+
+    regex = '(' + '|'.join(all_joined) + ')'
+
+    return regex
+
 @app.route('/search/api', methods=('GET', 'POST'))
 def search_api():
     if request.method == 'POST':
@@ -284,17 +304,25 @@ def search_api():
 
         # Process input request using PythaiNLP
         word_list_raw = word_tokenize(input_request['request'], engine='newmm', keep_whitespace=False)
-        word_list_pos = pos_tag(word_list_raw, corpus='pud')
+        word_list_pos = pos_tag(word_list_raw, corpus='orchid_ud')
 
-        print(f"Words deconstruction: {word_list_pos}")
+        print(f"\nWords deconstruction: {word_list_pos}")
 
         word_list = []
 
         for word in word_list_pos:
-            if word[1] == 'NOUN' or word[1] == 'VERB' or word[1] == 'ADJ' or word[1] == 'PROPN':
+            if word[1] == 'NOUN' or word[1] == 'VERB' or word[1] == 'PROPN' or word[1] == 'ADJ' or word[1] == 'ADV':
                 word_list.append(word[0])
 
+        print(f"Word list: {word_list}")
+
         # Prepare regex
+        permute_threshold = 5  # Max num of words to use regex PERMUTED
+
+        if len(word_list) <= permute_threshold:
+            word_regex_permuted = regex_create(word_list)
+            regex_permuted = re.compile(word_regex_permuted)
+
         word_regex_and = '.*'.join(word_list)
         word_regex_or = '|'.join(word_list)
         regex_and = re.compile(word_regex_and)
@@ -312,60 +340,116 @@ def search_api():
         # Find the db using the given regex
         data = []
 
-        for result in mongodb.solution.find({'topic': {'$regex': regex_and}}):
-            data.append({
-                "gender": gender_convert(result['gender']), 
-                "age": result['age'], 
-                "area": result['area'], 
-                "topic": result['topic'], 
-                "solution": result['solution'], 
-                "mode": 1  # 1 means strict mode
-            })
-
-        # Insert search term and result count into MongoDB
-        record = {
-            'datetime': datetime.now(), 
-            'search_term': input_request['request'], 
-            'result_count': len(data)
-        }
-        
-        Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
-
-        # Output the data
-        if len(data) > 0:  # If there's at least one result
-            # Random shuffle data list
-            random.shuffle(data)
-
-            print(f"Data length: {len(data)}")
-            print(f"Regex AND: {regex_and}")
-
-            return jsonify(data)
-        else:  # If no result, use OR regex
-            for result in mongodb.solution.find({'topic': {'$regex': regex_or}}):
+        if len(word_list) <= permute_threshold:  # If data len <= permute_threshold, use regex PERMUTED
+            for result in mongodb.solution.find({'topic': {'$regex': regex_permuted}}):
                 data.append({
                     "gender": gender_convert(result['gender']), 
                     "age": result['age'], 
                     "area": result['area'], 
                     "topic": result['topic'], 
                     "solution": result['solution'], 
-                    "mode": 2  # 2 means loose mode
+                    "mode": 1  # 1 means strict mode
                 })
 
-            if len(data) > 0:  # If there's result
+            # Insert search term and result count into MongoDB
+            record = {
+                'datetime': datetime.now(), 
+                'search_term': input_request['request'], 
+                'result_count': len(data)
+            }
+            
+            Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
+
+            # Output the data
+            if len(data) > 0:  # If there's at least one result
                 # Random shuffle data list
                 random.shuffle(data)
 
+                print(f"Regex PERMUTED: {regex_permuted}")
                 print(f"Data length: {len(data)}")
-                print(f"Regex OR: {regex_or}")
 
                 return jsonify(data)
-            else:  # If there's no result at all
-                data.append({"result": 0})
+            else:  # If no result, use OR regex
+                for result in mongodb.solution.find({'topic': {'$regex': regex_or}}):
+                    data.append({
+                        "gender": gender_convert(result['gender']), 
+                        "age": result['age'], 
+                        "area": result['area'], 
+                        "topic": result['topic'], 
+                        "solution": result['solution'], 
+                        "mode": 2  # 2 means loose mode
+                    })
 
+                if len(data) > 0:  # If there's result
+                    # Random shuffle data list
+                    random.shuffle(data)
+
+                    print(f"Regex OR (fallback from PERMUTED mode): {regex_or}")
+                    print(f"Data length: {len(data)}")
+
+                    return jsonify(data)
+                else:  # If there's no result at all
+                    data.append({"result": 0})
+
+                    print(f"Regex OR: {regex_or}")
+                    print(f"Data length: {len(data)}")
+
+                    return jsonify(data)
+        else:  # If data len > 5, use regex AND
+            for result in mongodb.solution.find({'topic': {'$regex': regex_and}}):
+                data.append({
+                    "gender": gender_convert(result['gender']), 
+                    "age": result['age'], 
+                    "area": result['area'], 
+                    "topic": result['topic'], 
+                    "solution": result['solution'], 
+                    "mode": 1  # 1 means strict mode
+                })
+
+            # Insert search term and result count into MongoDB
+            record = {
+                'datetime': datetime.now(), 
+                'search_term': input_request['request'], 
+                'result_count': len(data)
+            }
+            
+            Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
+
+            # Output the data
+            if len(data) > 0:  # If there's at least one result
+                # Random shuffle data list
+                random.shuffle(data)
+
+                print(f"Regex AND: {regex_and}")
                 print(f"Data length: {len(data)}")
-                print(f"Regex OR: {regex_or}")
 
                 return jsonify(data)
+            else:  # If no result, use OR regex
+                for result in mongodb.solution.find({'topic': {'$regex': regex_or}}):
+                    data.append({
+                        "gender": gender_convert(result['gender']), 
+                        "age": result['age'], 
+                        "area": result['area'], 
+                        "topic": result['topic'], 
+                        "solution": result['solution'], 
+                        "mode": 2  # 2 means loose mode
+                    })
+
+                if len(data) > 0:  # If there's result
+                    # Random shuffle data list
+                    random.shuffle(data)
+
+                    print(f"Regex OR (fallback from AND mode): {regex_or}")
+                    print(f"Data length: {len(data)}")
+
+                    return jsonify(data)
+                else:  # If there's no result at all
+                    data.append({"result": 0})
+
+                    print(f"Regex OR: {regex_or}")
+                    print(f"Data length: {len(data)}")
+
+                    return jsonify(data)
 
 # Function to insert feedback to MongoDB using thread
 def send_feedback(app, data_dict):

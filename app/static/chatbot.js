@@ -112,20 +112,16 @@ function fetchSearch(reqInput) {
                 <div class="rich-response">
                     <button class="req-rich" onclick="convReq('เกรดไม่ดี')">เกรดไม่ดี</button>
                     <button class="req-rich" onclick="convReq('เรียนไม่ทัน')">เรียนไม่ทัน</button>
-                    <button class="req-rich" onclick="convReq('เรียนต่อ')">เรียนต่อ</button>
                     <button class="req-rich" onclick="convReq('ทุนการศึกษา')">ทุนการศึกษา</button>
                     &nbsp;&#8226;&nbsp;
                     <button class="req-rich" onclick="convReq('พ่อแม่ไม่รับฟัง')">พ่อแม่ไม่รับฟัง</button>
-                    <button class="req-rich" onclick="convReq('เป็น LGBT')">เป็น LGBT</button>
                     <button class="req-rich" onclick="convReq('ทะเลาะกับที่บ้าน')">ทะเลาะกับที่บ้าน</button>
                     <button class="req-rich" onclick="convReq('โดนเปรียบเทียบ')">โดนเปรียบเทียบ</button>
                     &nbsp;&#8226;&nbsp;
                     <button class="req-rich" onclick="convReq('อยากมีแฟน')">อยากมีแฟน</button>
                     <button class="req-rich" onclick="convReq('แอบชอบ')">แอบชอบ</button>
                     <button class="req-rich" onclick="convReq('แฟนนอกใจ')">แฟนนอกใจ</button>
-                    <button class="req-rich" onclick="convReq('แฟนบอกเลิก')">แฟนบอกเลิก</button>
                     &nbsp;&#8226;&nbsp;
-                    <button class="req-rich" onclick="convReq('โดนเพื่อนแกล้ง')">โดนเพื่อนแกล้ง</button>
                     <button class="req-rich" onclick="convReq('ถูกบูลลี่')">ถูกบูลลี่</button>
                     <button class="req-rich" onclick="convReq('ทะเลาะกับเพื่อน')">ทะเลาะกับเพื่อน</button>
                     <button class="req-rich" onclick="convReq('เข้ากับเพื่อนไม่ได้')">เข้ากับเพื่อนไม่ได้</button>
@@ -133,10 +129,8 @@ function fetchSearch(reqInput) {
                     <button class="req-rich" onclick="convReq('เครียด')">เครียด</button>
                     <button class="req-rich" onclick="convReq('คิดมาก')">คิดมาก</button>
                     <button class="req-rich" onclick="convReq('ซึมเศร้า')">ซึมเศร้า</button>
-                    <button class="req-rich" onclick="convReq('ไม่อยากอยู่ต่อไปแล้ว')">ไม่อยากอยู่ต่อไปแล้ว</button>
                     &nbsp;&#8226;&nbsp;
                     <button class="req-rich" onclick="convReq('เงินไม่พอใช้')">เงินไม่พอใช้</button>
-                    <button class="req-rich" onclick="convReq('ไม่มีเงินเรียน')">ไม่มีเงินเรียน</button>
                     <button class="req-rich" onclick="convReq('ทุนการศึกษา')">ทุนการศึกษา</button>
                     <button class="req-rich" onclick="convReq('หางาน')">หางาน</button>
                 </div>`
