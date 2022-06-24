@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, jsonify, json
+from flask import render_template, redirect, url_for, flash, request, jsonify
 from app import app, db, mail
 from app.forms import SignupForm, LoginForm, ForgetForm, PasswordChangeForm, PasswordResetForm, Chatbot, DonateForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -8,8 +8,6 @@ import pymongo
 import random
 from datetime import datetime
 from threading import Thread
-# import boto3
-# from pathlib import Path
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tag import pos_tag
 import re
@@ -20,6 +18,11 @@ def home():
     form = Chatbot()
 
     return render_template('home.html', form=form)
+
+@app.route('/search')
+def multisearch():
+
+    return render_template('search.html')
 
 """
 Login and user sub-system
@@ -450,6 +453,28 @@ def search_api():
                     print(f"Data length: {len(data)}")
 
                     return jsonify(data)
+    else:  # If using GET method, provide API for multisearch
+        # Connect and define the database
+        client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+        mongodb = client.jaidee
+
+        data = []
+        count = 1
+
+        for i in mongodb.solution.find({}):
+            # Append dict to data object
+            data.append({
+                "id": count, 
+                "age": i['age'], 
+                "area": i['area'], 
+                "gender": i['gender'], 
+                "topic": i['topic'], 
+                "solution": i['solution']
+            })
+
+            count += 1
+
+        return jsonify(data)
 
 # Function to insert feedback to MongoDB using thread
 def send_feedback(app, data_dict):

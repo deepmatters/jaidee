@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div id="mainWrapper" class="main-wrapper">
+        <div class="content-wrapper">
+            <p><a href="/">< กลับไปหน้าแรก</a></p>
+            <div class="spacer-big"></div>
+            <h1>ค้นหาประสบการณ์</h1>
+            <h2 class="em">ฐานข้อมูลประสบการณ์ชีวิตวัยรุ่นของแชทบอทใจดี</h2>
+            <p>แชทบอทใจดีเปิดให้คนทำงานพัฒนาสุขภาวะเด็กและเยาวชน นักวิจัย และผู้สนใจทั่วไป ค้นหาฐานข้อมูลประสบการณ์แชทบอทใจดีผ่านเครื่องมือค้นหาขั้นสูง (Advanced search) โดยฐานข้อมูลนี้เป็นชุดเดียวกันกับที่แชทบอทใจดีแสดงในการสนทนา เก็บรวบรวมมาจากโครงการบริจาคประสบการณ์พัฒนา AI แชทบอทใจดี โดยข้อมูลที่เก็บมาไม่ดีข้อมูลที่บ่งบอกตัวบุคคล และอนุญาตให้ใช้งานเพื่อประโยชน์สาธารณะเท่านั้น</p>
+            <p class="blue-em">ความเห็นที่แสดงเป็นประสบการณ์ส่วนบุคคล และไม่ใช่คำแนะนำทางการแพทย์ <a href="/about#disclaimer-statement">อ่านเพิ่ม</a></p>
+
+            <div class="align-center">
+                <br>
+                <input type="text" id="searchBox" class="search-box" placeholder="พิมพ์คำค้นหา">&nbsp;
+                <button type="button" class="button" onclick="searchSubmit()">ค้นหา</button>
+                <br>
+                <button type="button" class="search-clear-button" onclick="searchClear()">เคลียร์ผลการค้นหา</button>&nbsp;&nbsp;
+                ผลการค้นหา <span id="searchResultNum">0</span> รายการ <span id="searchLooseModeNotice" class="red-em" style="display:none">(ค้นเจอเพียงบางคำ หากไม่พบผลลัพท์ที่ต้องการ กรุณาลองเปลี่ยนคำค้น)</span>
+            </div>
+            <br><br>
+            <div class="search-wrapper">
+                <div class="search-filter">
+                    <h2>ตัวกรอง</h2>
+
+                    <div class="search-filter-flex-wrapper">
+                        <div class="search-filter-half-left">
+                            <h3>เพศ</h3>
+                            <input id="genderMale" type="checkbox" name="gender" value="male">
+                            <label for="genderMale">ชาย</label>
+                            <input id="genderFemale" type="checkbox" name="gender" value="female">
+                            <label for="genderFemale">หญิง</label>
+                            <input id="genderOther" type="checkbox" name="gender" value="other">
+                            <label for="genderOther">อื่นๆ</label>
+                        </div>
+                        <div class="search-filter-half-right">
+                            <h3>อายุ</h3>
+                            <input id="age1" type="checkbox" name="age" value="1">
+                            <label for="age1">ต่ำกว่า 12</label>
+                            <input id="age2" type="checkbox" name="age" value="2">
+                            <label for="age2">12-18</label>
+                            <input id="age3" type="checkbox" name="age" value="3">
+                            <label for="age3">18 ขึ้นไป</label>
+                        </div>
+                    </div>
+                    
+                    <h3>จังหวัด</h3>
+                    <input id="provinceBkk" type="checkbox" name="province" value="กทม.">
+                    <label for="provinceBkk">กทม.</label>
+                    <input id="provinceNoneBkk" type="checkbox" name="province" value="นอกกทม.">
+                    <label for="provinceNoneBkk">นอก กทม.</label>
+    
+                    <br>
+                </div>
+                <div class="search-result">
+                    <div id="searchResult"></div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</main>
+<script src="/static/search.js"></script>
+{% endblock %}

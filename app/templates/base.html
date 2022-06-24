@@ -22,7 +22,9 @@
     {% if request.path.split('/')[1] == 'about' %}
         <title>ใจดีแชทบอท | เกี่ยวกับใจดี</title>
     {% elif request.path.split('/')[1] == 'donate' %}
-        <title>ใจดีแชทบอท | บริจาคประสบการณ์</title>   
+        <title>ใจดีแชทบอท | บริจาคประสบการณ์</title>
+    {% elif request.path.split('/')[1] == 'search' %}
+        <title>ใจดีแชทบอท | ค้นหาประสบการณ์</title>
     {% else %}
         <title>ใจดีแชทบอท</title> 
     {% endif %}
@@ -52,6 +54,7 @@
                 </div>
                 <div id="menuMobile" class="header-nav-mobile" style="display:none">
                     <p class="nav-item-mobile"><a href="/about">พี่ใจดีแนะนำตัว</a></p>
+                    <p class="nav-item-mobile"><a href="/search">ค้นหาประสบการณ์</a></p>
                     <p class="nav-item-mobile"><a href="/donate">บริจาคประสบการณ์</a></p>
                     <!-- {% if not current_user.is_authenticated %}
                         <p class="nav-item-mobile"><a href="/login">ล็อกอิน</a></p>
@@ -63,6 +66,7 @@
                 </div>
                 <div class="header-nav-block">
                     <span class="nav-item"><a href="/about">พี่ใจดีแนะนำตัว</a></span>
+                    <span class="nav-item"><a href="/search">ค้นหาประสบการณ์</a></span>
                     <span class="nav-item"><a href="/donate">บริจาคประสบการณ์</a></span>
                     <!-- {% if not current_user.is_authenticated %}
                         <span class="nav-item"><a href="/login">ล็อกอิน</a></span>
