@@ -204,8 +204,8 @@ function searchSubmit() {
             // // Optionally clear search box
             // searchInput.value = ''
 
-            // Refocus the search box
-            searchInput.focus()
+            // // Refocus the search box
+            // searchInput.focus()
         } else {  // If search input length < 1
             // Clear search result num
             searchResultNum.innerHTML = '0'
@@ -354,8 +354,8 @@ function searchSubmit() {
         // // Optionally clear search box
         // searchInput.value = ''
 
-        // Refocus the search box
-        searchInput.focus()
+        // // Refocus the search box
+        // searchInput.focus()
     }
 }
 
@@ -440,6 +440,7 @@ const genderOther = document.getElementById('genderOther')
 const age1 = document.getElementById('age1')
 const age2 = document.getElementById('age2')
 const age3 = document.getElementById('age3')
+const age4 = document.getElementById('age4')
 const provinceBkk = document.getElementById('provinceBkk')
 const provinceNoneBkk = document.getElementById('provinceNoneBkk')
 
@@ -484,6 +485,12 @@ age3.addEventListener('click', e => {
     const filterKey = 'age'
 
     filterPrep(filterKey, age3.value)
+})
+
+age4.addEventListener('click', e => {
+    const filterKey = 'age'
+
+    filterPrep(filterKey, age4.value)
 })
 
 provinceBkk.addEventListener('click', e => {
@@ -587,20 +594,26 @@ function filterSearch() {
                     searchObjFilteredGender.forEach((obj, i) => {
                         for (const [key, value] of Object.entries(obj)) {
                             if (key === 'age') {
-                                if (Number(fValue) === 1) {  // For age range 1 (< 12)
-                                    if (value < 12) {
+                                if (Number(fValue) === 1) {  // For age range 1 (<= 12)
+                                    if (value <= 12) {
                                         searchObjFilteredAge.push(searchObjFilteredGender[i])
                                     }
                                 }
         
-                                if (Number(fValue) === 2) {  // For age range 1 (12-18)
-                                    if (value >= 12 && value < 18) {
+                                if (Number(fValue) === 2) {  // For age range 2 (13-15)
+                                    if (value >= 13 && value < 16) {
+                                        searchObjFilteredAge.push(searchObjFilteredGender[i])
+                                    }
+                                }
+
+                                if (Number(fValue) === 3) {  // For age range 3 (16-18)
+                                    if (value >= 16 && value < 19) {
                                         searchObjFilteredAge.push(searchObjFilteredGender[i])
                                     }
                                 }
         
-                                if (Number(fValue) === 3) {  // For age range 3 (> 18)
-                                    if (value >= 18) {
+                                if (Number(fValue) === 4) {  // For age range 4 (> 18)
+                                    if (value >= 19) {
                                         searchObjFilteredAge.push(searchObjFilteredGender[i])
                                     }
                                 }
