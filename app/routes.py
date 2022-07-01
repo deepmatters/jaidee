@@ -533,6 +533,7 @@ def donate():
         # Get data from form
         topic = form.topic.data
         solution = form.solution.data
+        motivation = form.motivation.data
         age = form.age.data
         gender = form.gender.data
         province = form.province.data
@@ -545,6 +546,7 @@ def donate():
             "record_date": now, 
             "topic": topic, 
             "solution": solution, 
+            "motivation": motivation, 
             "age": age, 
             "gender": gender, 
             "province": province

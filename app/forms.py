@@ -38,6 +38,7 @@ class Chatbot(FlaskForm):
 class DonateForm(FlaskForm):
     topic = TextAreaField('ตอนเป็นวัยรุ่น ท่านมีความเครียด ความกังวล หรือความทุกข์เรื่องใดมากที่สุด เขียนเล่าคร่าวๆ')
     solution = TextAreaField('ท่านแก้ปัญหาเรื่องข้างบนอย่างไร')
+    motivation = TextAreaField('อยากจะฝากข้อความอะไรเป็นกำลังใจให้น้องๆ ที่กำลังเจอกับเรื่องแย่ๆ คล้ายกับที่ท่านเคยเจอ')
     age = IntegerField('ปัจจุบันท่านอายุเท่าใด')
     gender = RadioField('เพศ: ', choices=[
         ("male", "ชาย"), 
