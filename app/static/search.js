@@ -429,6 +429,7 @@ function searchClear() {
     age1.checked = false
     age2.checked = false
     age3.checked = false
+    age4.checked = false
     provinceBkk.checked = false
     provinceNoneBkk.checked = false
     dataFiltered.checked = false
@@ -667,13 +668,13 @@ function filterSearch() {
                         for (const [key, value] of Object.entries(obj)) {
                             if (key === 'area') {
                                 if (fValue === 'กทม.') {
-                                    if (value === 'กทม.') {
+                                    if (value === 'กทม.' || value === 'กทม' || value === 'กรุงเทพ') {
                                         searchObjFilteredArea.push(searchObjFilteredAge[i])
                                     }
                                 }
 
                                 if (fValue === 'นอกกทม.') {
-                                    if (value !== 'กทม.') {
+                                    if (value !== 'กทม.' && value !== 'กทม' && value !== 'กรุงเทพ') {
                                         searchObjFilteredArea.push(searchObjFilteredAge[i])
                                     }
                                 }
@@ -738,6 +739,7 @@ function loadInit() {
     age1.checked = false
     age2.checked = false
     age3.checked = false
+    age4.checked = false
     provinceBkk.checked = false
     provinceNoneBkk.checked = false
     dataFiltered.checked = false
