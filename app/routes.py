@@ -461,15 +461,32 @@ def search_api():
         data = []
         count = 1
 
-        for i in mongodb.solution.find({}):
+        for i in mongodb.solution.find({}):  # Filtered db
             # Append dict to data object
             data.append({
                 "id": count, 
+                "type": "คัดกรองแล้ว", 
                 "age": i['age'], 
                 "area": i['area'], 
                 "gender": i['gender'], 
                 "topic": i['topic'], 
-                "solution": i['solution']
+                "solution": i['solution'], 
+                "motivation": "-"
+            })
+
+            count += 1
+
+        for i in mongodb.donate.find({}):  # Unfiltered db
+            # Append dict to data object
+            data.append({
+                "id": count, 
+                "type": "ยังไม่ได้คัดกรอง", 
+                "age": i['age'], 
+                "area": i['province'], 
+                "gender": i['gender'], 
+                "topic": i['topic'], 
+                "solution": i['solution'], 
+                "motivation": i['motivation']
             })
 
             count += 1

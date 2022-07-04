@@ -163,9 +163,10 @@ function searchSubmit() {
         
                             const searchResultItem = document.getElementById(`searchResult${index}`)
                             searchResultItem.innerHTML = `
-                                <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area }</p>
+                                <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area } | ข้อมูล${ result.obj.type }</p>
                                 <p><span class="red-em">ปัญหา:</span> <strong>${ result.obj.topic}</strong></p>
                                 <p><span class="blue-em">ทางแก้ไข:</span> ${ result.obj.solution}</p>
+                                <p><span class="blue-em">ฝากกำลังใจ:</span> ${ result.obj.motivation}</p>
                             `
                         }
                     })
@@ -192,9 +193,10 @@ function searchSubmit() {
     
                         const searchResultItem = document.getElementById(`searchResult${index}`)
                         searchResultItem.innerHTML = `
-                            <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area }</p>
+                            <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area } | ข้อมูล${ result.obj.type }</p>
                             <p><span class="red-em">ปัญหา:</span> <strong>${ result.obj.topic}</strong></p>
                             <p><span class="blue-em">ทางแก้ไข:</span> ${ result.obj.solution}</p>
+                            <p><span class="blue-em">ฝากกำลังใจ:</span> ${ result.obj.motivation}</p>
                         `
                     })
                 }
@@ -314,9 +316,10 @@ function searchSubmit() {
             
                         const searchResultItem = document.getElementById(`searchResult${index}`)
                         searchResultItem.innerHTML = `
-                            <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area }</p>
+                            <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area } | ข้อมูล${ result.obj.type }</p>
                             <p><span class="red-em">ปัญหา:</span> <strong>${ result.obj.topic}</strong></p>
                             <p><span class="blue-em">ทางแก้ไข:</span> ${ result.obj.solution}</p>
+                            <p><span class="blue-em">ฝากกำลังใจ:</span> ${ result.obj.motivation}</p>
                         `
                     }
                 })
@@ -343,9 +346,10 @@ function searchSubmit() {
 
                     const searchResultItem = document.getElementById(`searchResult${index}`)
                     searchResultItem.innerHTML = `
-                        <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area }</p>
+                        <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area } | ข้อมูล${ result.obj.type }</p>
                         <p><span class="red-em">ปัญหา:</span> <strong>${ result.obj.topic}</strong></p>
                         <p><span class="blue-em">ทางแก้ไข:</span> ${ result.obj.solution}</p>
+                        <p><span class="blue-em">ฝากกำลังใจ:</span> ${ result.obj.motivation}</p>
                     `
                 })
             }
@@ -382,9 +386,10 @@ function searchMore() {
 
             const searchResultItem = document.getElementById(`searchResult${index}`)
             searchResultItem.innerHTML = `
-                <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area }</p>
+                <p class="gray-small">เพศ ${ result.obj.gender } | อายุ ${ result.obj.age } ปี | จังหวัด ${ result.obj.area } | ข้อมูล${ result.obj.type }</p>
                 <p><span class="red-em">ปัญหา:</span> <strong>${ result.obj.topic}</strong></p>
                 <p><span class="blue-em">ทางแก้ไข:</span> ${ result.obj.solution}</p>
+                <p><span class="blue-em">ฝากกำลังใจ:</span> ${ result.obj.motivation}</p>
             `
         }
     })
@@ -414,7 +419,8 @@ function searchClear() {
     filterObj = {
         gender: [], 
         age: [], 
-        province: []
+        province: [], 
+        type: []
     }
 
     genderMale.checked = false
@@ -425,6 +431,8 @@ function searchClear() {
     age3.checked = false
     provinceBkk.checked = false
     provinceNoneBkk.checked = false
+    dataFiltered.checked = false
+    dataUnfiltered.checked = false
 
     // Call filterSearch with empty search input
     filterSearch()
@@ -443,11 +451,14 @@ const age3 = document.getElementById('age3')
 const age4 = document.getElementById('age4')
 const provinceBkk = document.getElementById('provinceBkk')
 const provinceNoneBkk = document.getElementById('provinceNoneBkk')
+const dataFiltered = document.getElementById('dataFiltered')
+const dataUnfiltered = document.getElementById('dataUnfiltered')
 
 let filterObj = {  // Init an object to hold filter values
     gender: [], 
     age: [], 
-    province: []
+    province: [], 
+    type: []
 }
 
 // Add click listener
@@ -505,6 +516,18 @@ provinceNoneBkk.addEventListener('click', e => {
     filterPrep(filterKey, provinceNoneBkk.value)
 })
 
+dataFiltered.addEventListener('click', e => {
+    const filterKey = 'type'
+
+    filterPrep(filterKey, dataFiltered.value)
+})
+
+dataUnfiltered.addEventListener('click', e => {
+    const filterKey = 'type'
+
+    filterPrep(filterKey, dataUnfiltered.value)
+})
+
 // Filter add/remove functions
 function filterPrep(filterKey, choice) {
     const checkedDom = document.querySelectorAll(`input[name="${filterKey}"]:checked`)
@@ -534,6 +557,7 @@ function filterSearch() {
     let genderCheck = false
     let ageCheck = false
     let provinceCheck = false
+    let typeCheck = false
 
     for (const [key, value] of Object.entries(filterObj)) {
         if (key === 'gender') {
@@ -553,15 +577,22 @@ function filterSearch() {
                 provinceCheck = true
             }
         }
+
+        if (key === 'type') {
+            if (value.length !== 0) {
+                typeCheck = true
+            }
+        }
     }
 
     // CASE 0: None is checked
-    if (genderCheck === false && ageCheck === false && provinceCheck === false) {
+    if (genderCheck === false && ageCheck === false && provinceCheck === false && typeCheck === false) {
 
     } else {  // CASE 1: Some are checked
         // Stage 1: filter GENDER first
         let searchObjFilteredGender = []
         let searchObjFilteredAge = []
+        let searchObjFilteredArea = []
 
         if (genderCheck === false) {
             // If no gender is checked, it means ALL is checked, 
@@ -628,7 +659,7 @@ function filterSearch() {
         if (provinceCheck === false) {
             // If no gender is checked, it means ALL is checked, 
             // so assign searchObj to search object of this stage
-            searchObjFiltered = searchObjFilteredAge
+            searchObjFilteredArea = searchObjFilteredAge
         } else {
             for (const [filterKey, filterValue] of Object.entries(filterObj)) {
                 filterValue.forEach(fValue => {
@@ -637,13 +668,42 @@ function filterSearch() {
                             if (key === 'area') {
                                 if (fValue === 'กทม.') {
                                     if (value === 'กทม.') {
-                                        searchObjFiltered.push(searchObjFilteredAge[i])
+                                        searchObjFilteredArea.push(searchObjFilteredAge[i])
                                     }
                                 }
 
                                 if (fValue === 'นอกกทม.') {
                                     if (value !== 'กทม.') {
-                                        searchObjFiltered.push(searchObjFilteredAge[i])
+                                        searchObjFilteredArea.push(searchObjFilteredAge[i])
+                                    }
+                                }
+                            }
+                        }
+                    })
+                })
+            }
+        }
+
+        // Stage 4: filter TYPE from filtered AREA
+        if (typeCheck === false) {
+            // If no gender is checked, it means ALL is checked, 
+            // so assign searchObj to search object of this stage
+            searchObjFiltered = searchObjFilteredArea
+        } else {
+            for (const [filterKey, filterValue] of Object.entries(filterObj)) {
+                filterValue.forEach(fValue => {
+                    searchObjFilteredArea.forEach((obj, i) => {
+                        for (const [key, value] of Object.entries(obj)) {
+                            if (key === 'type') {
+                                if (fValue === 'คัดกรองแล้ว') {
+                                    if (value === 'คัดกรองแล้ว') {
+                                        searchObjFiltered.push(searchObjFilteredArea[i])
+                                    }
+                                }
+
+                                if (fValue === 'ยังไม่ได้คัดกรอง') {
+                                    if (value === 'ยังไม่ได้คัดกรอง') {
+                                        searchObjFiltered.push(searchObjFilteredArea[i])
                                     }
                                 }
                             }
@@ -680,6 +740,8 @@ function loadInit() {
     age3.checked = false
     provinceBkk.checked = false
     provinceNoneBkk.checked = false
+    dataFiltered.checked = false
+    dataUnfiltered.checked = false
 
     // Disable main-wrapper and search UI until JSON is loaded
     searchBox.disabled = true
