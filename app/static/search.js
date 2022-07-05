@@ -668,13 +668,13 @@ function filterSearch() {
                         for (const [key, value] of Object.entries(obj)) {
                             if (key === 'area') {
                                 if (fValue === 'กทม.') {
-                                    if (value === 'กทม.' || value === 'กทม' || value === 'กรุงเทพ') {
+                                    if (value === 'กทม.' || value === 'กทม' || value === 'กรุงเทพ' || value === 'กรุงเทพฯ' || value === 'กรุงเทพมหานคร') {
                                         searchObjFilteredArea.push(searchObjFilteredAge[i])
                                     }
                                 }
 
                                 if (fValue === 'นอกกทม.') {
-                                    if (value !== 'กทม.' && value !== 'กทม' && value !== 'กรุงเทพ') {
+                                    if (value !== 'กทม.' && value !== 'กทม' && value !== 'กรุงเทพ' || value === 'กรุงเทพฯ' || value === 'กรุงเทพมหานคร') {
                                         searchObjFilteredArea.push(searchObjFilteredAge[i])
                                     }
                                 }
