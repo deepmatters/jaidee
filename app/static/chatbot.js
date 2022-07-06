@@ -108,7 +108,7 @@ function fetchSearch(reqInput) {
         if (searchMode == 2) {  // If loose mode
             // Bot will add convResNotice as a special loose mode notice here 
             reqRes.push(
-                `หรือลองกดเลือกหัวข้อดู<br>
+                `ทีมงานกำลังพัฒนาความสามารถให้พี่ใจดีเข้าใจที่น้องพิมพ์ได้ดีขึ้น อดใจรออีกนิดนะ ระหว่างนี้น้องสามารถลองกดเลือกหัวข้อดู<br>
                 <div class="rich-response">
                     <button class="req-rich" onclick="convReq('เกรดไม่ดี')">เกรดไม่ดี</button>
                     <button class="req-rich" onclick="convReq('เรียนไม่ทัน')">เรียนไม่ทัน</button>
