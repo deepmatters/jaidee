@@ -6,16 +6,21 @@
         <h1>ข้อมูลของฉัน</h1>
         <div class="main-flex-wrapper">
             <div class="main-flex-half-left">
-                <p>รหัสผู้ใช้: {{ user_id }}</p>
-                <p>ชื่อ: {{ user_name }}</p>
-                <p>อีเมล: {{ user_email }}</p>
+                <p>รหัสผู้ใช้: {{ user.id }}</p>
+                <p>ชื่อ: {{ user.name }}</p>
+                <p>อีเมล: {{ user.email }}</p>
                 <p>รหัสผ่าน: ******** [ <a href="/password-change">เปลี่ยนรหัสผ่าน</a> ]</p>
-                <p>ประเภทการใช้งาน: {{ user_role }}</p>
-                <p>วันที่สร้างบัญชี: {{ user_create_dt.strftime('%d-%m-%Y') }}</p>
-                <p>วันที่ล็อกอินครั้งล่าสุด: {{ user_lastlogin_dt.strftime('%d-%m-%Y') }}</p>
+                <p>ประเภทการใช้งาน: {{ user.role }}</p>
+                <p>วันที่สร้างบัญชี: {{ user.create_dt.strftime('%d-%m-%Y') }}</p>
+                <p>วันที่ล็อกอินครั้งล่าสุด: {{ user.lastlogin_dt.strftime('%d-%m-%Y') }}</p>
+                <hr>
+                <p><a href="/logout">ออกจากระบบ</a></p>
             </div>
             <div class="main-flex-half-right">
-                <p>User content</p>
+                {% if user.role == 'admin' %}
+                    <h2>เครื่องมือของ Admin</h2>
+                    <p><a href="/chat_record">บันทึกการสนทนา</a></p>
+                {% endif %}
             </div>
         </div>
     </div>

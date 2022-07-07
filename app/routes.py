@@ -24,6 +24,18 @@ def multisearch():
 
     return render_template('search.html')
 
+@app.route('/chat_record')
+@login_required
+def chat_record():
+    admin = False
+
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            admin = True
+
+    if admin:
+        return render_template('chat_record.html')
+
 """
 Login and user sub-system
 """
@@ -247,14 +259,8 @@ Profile
 @login_required
 def profile():
     user = User.query.filter_by(id=current_user.id).first()
-    user_id = user.id
-    user_name = user.name
-    user_email = user.email
-    user_role = user.role
-    user_create_dt = user.create_dt
-    user_lastlogin_dt = user.lastlogin_dt
 
-    return render_template('profile.html', user_id=user_id, user_name=user_name, user_email=user_email, user_role=user_role, user_create_dt=user_create_dt, user_lastlogin_dt=user_lastlogin_dt)
+    return render_template('profile.html', user=user)
 
 """
 Search API
@@ -652,6 +658,50 @@ def feedback_api():
         mongodb.feedback.insert_one(data_dict)
 
         return jsonify({"status": "posted"})
+
+"""
+Chat record
+"""
+
+@app.route('/chat_record/api', methods=('GET', 'POST'))
+def chat_record_api():
+    admin = False
+
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            admin = True
+
+    if admin:
+        if request.method == 'GET':
+            # Connect and define the database
+            client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+            mongodb = client.jaidee
+
+            data = []
+            count = 1
+
+            for i in mongodb.search_record.find({}).sort('_id', -1):  # Filtered db
+                # Append dict to data object
+                try:
+                    data.append({
+                        "id": count, 
+                        "datetime": i['datetime'], 
+                        "searchTerm": i['search_term'], 
+                        "resultCount": i['result_count'], 
+                        "mode": i['mode']
+                    })
+                except:
+                    data.append({
+                        "id": count, 
+                        "datetime": i['datetime'], 
+                        "searchTerm": i['search_term'], 
+                        "resultCount": i['result_count'], 
+                        "mode": "-"
+                    })
+
+                count += 1
+
+            return jsonify(data)
 
 """
 Static

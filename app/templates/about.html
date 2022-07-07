@@ -6,6 +6,17 @@
         <div class="content-wrapper">
             <p><a href="/">< กลับไปหน้าแรก</a></p>
             <div class="spacer-big"></div>
+
+            {% if current_user.is_authenticated %}
+                {% if current_user.role == 'admin' %}
+                    <div class="caution-zone">
+                        <h2>Admin</h2>
+                        <p><a href="/profile">โปรไฟล์ของฉัน</a> | <a href="/logout">ออกจากระบบ</a></p>
+                    </div>
+                    <div class="spacer-big"></div>
+                {% endif %}
+            {% endif %}
+
             <h1>พี่แชทบอทใจดีแนะนำตัวเอง</h1>
             <img class="about" src="https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/jaidee-botlogo.svg" alt="แชทบอทใจดี">
             <p>สวัสดีค่ะทุกคน ดีใจที่ได้รู้จักกับทุกคน</p>
@@ -59,6 +70,12 @@
                 <p>แชทบอทใจดี เป็น<span class="blue-em">รุ่นทดสอบ</span> หากท่านมีข้อแนะนำ หรือต้องการติดต่อผู้พัฒนา กรุณาอีเมลมาที่ chitpong [at] changefusion [dot] org</p>
             </div>
             <div class="spacer-big"></div>
+            {% if not current_user.is_authenticated %}
+                <div class="center">
+                    <p><a href="/login">ผู้ดูแลระบบ</a></p>
+                </div>
+                <div class="spacer-big"></div>
+            {% endif %}
         </div>
     </div>
 </main>
