@@ -296,6 +296,38 @@ def regex_create(condition):
 
     return regex
 
+# Define proxy dict for PROXY mode
+proxy_dict = {
+    'การเรียน': ['การเรียน', 'เรียน', 'สอบ', 'เกรด', 'คะแนน', 'วิชา', 'คณิต', 'อังกฤษ', 'ไทย', 'ฟิสิกส์', 'เคมี', 'ชีวะ'], 
+    'อ่านหนังสือ': ['อ่านหนังสือ'], 
+    'ความจำ': ['ความจำ'], 
+    'ถนัด': ['ถนัด'], 
+    'เรียนพิเศษ': ['เรียนพิเศษ'], 
+    'ครู': ['ครู', 'อาจารย์'], 
+    'โรงเรียน': ['โรงเรียน'], 
+    'มหาลัย': ['มหาลัย', 'มหาวิทยาลัย'], 
+    'ครอบครัว': ['ครอบครัว', 'พ่อ', 'แม่', 'พี่ชาย', 'พี่สาว', 'น้องชาย', 'น้องสาว', 'ญาติ', 'พ่อแม่', 'ที่บ้าน', 'ทางบ้าน', 'บ้าน'], 
+    'เพื่อน': ['เพื่อน', 'สังคม'], 
+    'ทะเลาะ': ['ทะเลาะ'], 
+    'นินทา': ['นินทา', 'ลับหลัง'], 
+    'บูลลี่': ['บูลลี่', 'บุลลี่', 'Bully', 'bully', 'บลูรี่', 'แกล้ง', 'กลั่นแกล้ง', 'รังแก', 'ทำร้าย'], 
+    'ความรัก': ['ความรัก', 'รัก', 'แฟน', 'นอกใจ', 'มีคนใหม่'], 
+    'แอบชอบ': ['แอบชอบ', 'แอบรัก'], 
+    'เงิน': ['เงิน', 'พอใช้', 'ไม่พอใช้'], 
+    'ทุน': ['ทุน'], 
+    'เรียนต่อ': ['เรียนต่อ', 'ศึกษาต่อ', 'ซิ่ว', 'คณะ'], 
+    'เลือกสาย': ['เลือกสาย'], 
+    'ซึมเศร้า': ['ซึมเศร้า'], 
+    'ตาย': ['ตาย'], 
+    'ป่วย': ['ป่วย', 'ไม่สบาย'], 
+    'เครียด': ['เครียด'], 
+    'เหนื่อย': ['เหนื่อย', 'ท้อ'], 
+    'กำลังใจ': ['กำลังใจ'], 
+    'หน้าตา': ['หน้าตา', 'สิว', 'ผิวคล้ำ', 'ผิวดำ'], 
+    'รูปร่าง': ['รูปร่าง', 'อ้วน', 'ผอม'], 
+    'โควิด': ['โควิด', 'Covid', 'covid']
+}
+
 @app.route('/search/api', methods=('GET', 'POST'))
 def search_api():
     if request.method == 'POST':
@@ -327,9 +359,9 @@ def search_api():
             regex_permuted = re.compile(word_regex_permuted)
 
         word_regex_and = '.*'.join(word_list)
-        word_regex_or = '|'.join(word_list)
+        # word_regex_or = '|'.join(word_list)
         regex_and = re.compile(word_regex_and)
-        regex_or = re.compile(word_regex_or)
+        # regex_or = re.compile(word_regex_or)
 
         # Connect and define the database
         client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
@@ -354,15 +386,6 @@ def search_api():
                     "mode": 1  # 1 means strict mode
                 })
 
-            # Insert search term and result count into MongoDB
-            record = {
-                'datetime': datetime.now(), 
-                'search_term': input_request['request'], 
-                'result_count': len(data)
-            }
-            
-            Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
-
             # Output the data
             if len(data) > 0:  # If there's at least one result
                 # Random shuffle data list
@@ -371,31 +394,88 @@ def search_api():
                 print(f"Regex PERMUTED: {regex_permuted}")
                 print(f"Data length: {len(data)}")
 
-                return jsonify(data)
-            else:  # If no result, use OR regex
-                for result in mongodb.solution.find({'topic': {'$regex': regex_or}}):
-                    data.append({
-                        "gender": gender_convert(result['gender']), 
-                        "age": result['age'], 
-                        "area": result['area'], 
-                        "topic": result['topic'], 
-                        "solution": result['solution'], 
-                        "mode": 2  # 2 means loose mode
-                    })
+                # Insert search term and result count into MongoDB
+                record = {
+                    'datetime': datetime.now(), 
+                    'search_term': input_request['request'], 
+                    'result_count': len(data), 
+                    'mode': 1
+                }
+                
+                Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
 
-                if len(data) > 0:  # If there's result
+                return jsonify(data)
+            else:  # If no result, use PROXY mode
+                proxy_list = []
+                
+                for proxy in proxy_dict.items():
+                    # Create regex of each dict value
+                    word_list_or = '|'.join(proxy[1])
+                    proxy_item_regex = re.compile(word_list_or)
+
+                    # Test regex match
+                    result = proxy_item_regex.search(input_request['request'])
+
+                    if result:  # If matched
+                        proxy_list.append(proxy[0])
+
+                print(f"Proxy: {proxy_list}")
+
+                if len(proxy_list) > 0:  # If there's result
+                    # Create search regex from proxy_list using OR mode
+                    proxy_list_or = '|'.join(proxy_list)
+                    proxy_list_regex = re.compile(proxy_list_or)
+
+                    for result in mongodb.solution.find({'topic': {'$regex': proxy_list_regex}}):
+                        data.append({
+                            "gender": gender_convert(result['gender']), 
+                            "age": result['age'], 
+                            "area": result['area'], 
+                            "topic": result['topic'], 
+                            "solution": result['solution'], 
+                            "mode": 2  # 2 means 'proxy' mode
+                        })
+
                     # Random shuffle data list
                     random.shuffle(data)
 
-                    print(f"Regex OR (fallback from PERMUTED mode): {regex_or}")
+                    print(f"Regex AND (PROXY mode):")
                     print(f"Data length: {len(data)}")
+
+                    # Insert search term and result count into MongoDB
+                    record = {
+                        'datetime': datetime.now(), 
+                        'search_term': input_request['request'], 
+                        'result_count': len(data), 
+                        'mode': 2
+                    }
+                    
+                    Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
 
                     return jsonify(data)
                 else:  # If there's no result at all
-                    data.append({"result": 0})
+                    # data.append({"result": 0})
+                    data.append({
+                        "gender": None, 
+                        "age": None, 
+                        "area": None, 
+                        "topic": None, 
+                        "solution": None, 
+                        "mode": 3  # 3 means 'none' mode
+                    })
 
-                    print(f"Regex OR: {regex_or}")
+                    print(f"Regex OR (NONE mode)")
                     print(f"Data length: {len(data)}")
+
+                    # Insert search term and result count into MongoDB
+                    record = {
+                        'datetime': datetime.now(), 
+                        'search_term': input_request['request'], 
+                        'result_count': 0, 
+                        'mode': 3
+                    }
+                    
+                    Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
 
                     return jsonify(data)
         else:  # If data len > 5, use regex AND
@@ -409,15 +489,6 @@ def search_api():
                     "mode": 1  # 1 means strict mode
                 })
 
-            # Insert search term and result count into MongoDB
-            record = {
-                'datetime': datetime.now(), 
-                'search_term': input_request['request'], 
-                'result_count': len(data)
-            }
-            
-            Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
-
             # Output the data
             if len(data) > 0:  # If there's at least one result
                 # Random shuffle data list
@@ -426,31 +497,87 @@ def search_api():
                 print(f"Regex AND: {regex_and}")
                 print(f"Data length: {len(data)}")
 
-                return jsonify(data)
-            else:  # If no result, use OR regex
-                for result in mongodb.solution.find({'topic': {'$regex': regex_or}}):
-                    data.append({
-                        "gender": gender_convert(result['gender']), 
-                        "age": result['age'], 
-                        "area": result['area'], 
-                        "topic": result['topic'], 
-                        "solution": result['solution'], 
-                        "mode": 2  # 2 means loose mode
-                    })
+                # Insert search term and result count into MongoDB
+                record = {
+                    'datetime': datetime.now(), 
+                    'search_term': input_request['request'], 
+                    'result_count': len(data), 
+                    'mode': 1
+                }
+                
+                Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
 
-                if len(data) > 0:  # If there's result
+                return jsonify(data)
+            else:  # If no result, use PROXY mode
+                proxy_list = []
+                
+                for proxy in proxy_dict.items():
+                    # Create regex of each dict value
+                    word_list_or = '|'.join(proxy[1])
+                    proxy_item_regex = re.compile(word_list_or)
+
+                    # Test regex match
+                    result = proxy_item_regex.search(input_request['request'])
+
+                    if result:  # If matched
+                        proxy_list.append(proxy[0])
+
+                print(f"Proxy: {proxy_list}")
+
+                if len(proxy_list) > 0:  # If there's result
+                    # Create search regex from proxy_list using OR mode
+                    proxy_list_or = '|'.join(proxy_list)
+                    proxy_list_regex = re.compile(proxy_list_or)
+
+                    for result in mongodb.solution.find({'topic': {'$regex': proxy_list_regex}}):
+                        data.append({
+                            "gender": gender_convert(result['gender']), 
+                            "age": result['age'], 
+                            "area": result['area'], 
+                            "topic": result['topic'], 
+                            "solution": result['solution'], 
+                            "mode": 2  # 2 means 'proxy' mode
+                        })
+
                     # Random shuffle data list
                     random.shuffle(data)
 
-                    print(f"Regex OR (fallback from AND mode): {regex_or}")
+                    print(f"Regex AND (PROXY mode):")
                     print(f"Data length: {len(data)}")
+
+                    # Insert search term and result count into MongoDB
+                    record = {
+                        'datetime': datetime.now(), 
+                        'search_term': input_request['request'], 
+                        'result_count': len(data), 
+                        'mode': 2
+                    }
+                    
+                    Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
 
                     return jsonify(data)
                 else:  # If there's no result at all
-                    data.append({"result": 0})
+                    data.append({
+                        "gender": None, 
+                        "age": None, 
+                        "area": None, 
+                        "topic": None, 
+                        "solution": None, 
+                        "mode": 3  # 3 means 'none' mode
+                    })
 
-                    print(f"Regex OR: {regex_or}")
+                    print(f"Regex OR (NONE mode)")
                     print(f"Data length: {len(data)}")
+
+                    # Insert search term and result count into MongoDB
+                    record = {
+                        'datetime': datetime.now(), 
+                        'search_term': input_request['request'], 
+                        'result_count': 0, 
+                        'mode': 3
+                    }
+                    
+                    Thread(target=search_record_insert, args=(app, record)).start()  # Save record asynchronously
 
                     return jsonify(data)
     else:  # If using GET method, provide API for multisearch

@@ -6,7 +6,7 @@ const resDelay = 700  // Delay in ms for each round of response
 const resLengthLimit = 3  // Number of message to display each cycle
 let resLengthCycle = 1  // Keeping track of message display cycle
 let resLengthProcessed = 0  // Keeping track of processed message in each cycle
-let searchMode = 1  // Search regex mode: 1 = strict, 2 = loose
+let searchMode = 1  // Search regex mode: 1 = strict, 2 = proxy, 3 = none
 
 // Prep arrays of avatar images to be randomly choosen
 const baseImgUrl = 'https://jaideeweb.s3.ap-southeast-1.amazonaws.com/chatbot/'
@@ -93,11 +93,11 @@ function fetchSearch(reqInput) {
         document.getElementById('resBubble').remove()
         document.getElementById('resBubbleClear').remove()
 
-        // Set strict or loose mode according to data[0]
-        if (data[0].mode == 2) {
-            searchMode = 2
+        // Set strict, proxy, or none mode according to data[0]
+        if (data[0].mode == 3) {
+            searchMode = 3  // No result
         } else {
-            searchMode = 1
+            searchMode = 1  // Have result, either strict or proxy mode
         }
 
         reqRes = []  // Reset reqRes array
@@ -105,8 +105,8 @@ function fetchSearch(reqInput) {
         let pronoun = ''
         let avatarUrl = ''
 
-        if (searchMode == 2) {  // If loose mode
-            // Bot will add convResNotice as a special loose mode notice here 
+        if (searchMode == 3) {  // If 'none' mode
+            // Bot will add convResNotice as a special 'none' mode notice here 
             reqRes.push(
                 `ทีมงานกำลังพัฒนาความสามารถให้พี่ใจดีเข้าใจที่น้องพิมพ์ได้ดีขึ้น อดใจรออีกนิดนะ ระหว่างนี้น้องสามารถลองกดเลือกหัวข้อดู<br>
                 <div class="rich-response">
@@ -130,7 +130,7 @@ function fetchSearch(reqInput) {
                     <button class="req-rich" onclick="convReq('หางาน')">หางาน</button>
                 </div>`
             )
-        } else if (searchMode == 1) {  // If normal mode
+        } else if (searchMode == 1) {  // If strict or proxy mode
             data.forEach(i => {
                 if (i.result == 0) {  // If no result
                     reqRes.push(
@@ -483,10 +483,10 @@ function convAddIntervention(flag) {
     }, 0)
 }
 
-// Special function to add notice when loose mode is on
+// Special function to add notice when NONE mode is on
 function convAddNotice() {
     // Add Notice box at the beginning ONLY when first result item 
-    // is loose mode (mode = 2)
+    // is NONE mode (mode = 3)
     setTimeout(function() {
         const childNode = document.createElement('div')
         const childNodeClear = document.createElement('div')
@@ -509,12 +509,12 @@ function convAddNotice() {
             convId: convNum+1, 
             time: Date.now(), 
             side: 'bot', 
-            message: 'loose mode notice'
+            message: 'NONE mode notice'
         })
 
         convNum += 1
 
-        // Disable loose mode notice after noticed once
+        // Disable NONE mode notice after noticed once
         searchMode = 1
     }, 0)
 }
@@ -531,8 +531,8 @@ function convRes() {
         convAddIntervention('suicide')
     }
 
-    // Add loose mode notice if first result item mode is loose (2)
-    if (searchMode == 2) {
+    // Add NONE mode notice if first result item mode is NONE (3)
+    if (searchMode == 3) {
         convAddNotice()
     }
 
