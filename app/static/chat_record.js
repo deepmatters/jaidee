@@ -165,8 +165,8 @@ function searchSubmit() {
         
                             const searchResultItem = document.getElementById(`searchResult${index}`)
                             searchResultItem.innerHTML = `
-                                <p class="gray-small">Datetime ${ result.obj.datetime } | Result count ${ result.obj.resultCount } | Mode ${ result.obj.mode }</p>
-                                <p><span class="red-em">Search term:</span> <strong>${ result.obj.searchTerm}</strong></p>
+                                <p class="gray-small">${ result.obj.datetime } | Mode <span class="red-em">${ result.obj.mode }</span> | Result # <span class="blue-em">${ result.obj.resultCount }</span></p>
+                                <p><strong>${ result.obj.searchTerm}</strong></p>
                             `
                         }
                     })
@@ -193,8 +193,8 @@ function searchSubmit() {
     
                         const searchResultItem = document.getElementById(`searchResult${index}`)
                         searchResultItem.innerHTML = `
-                            <p class="gray-small">Datetime ${ result.obj.datetime } | Result count ${ result.obj.resultCount } | Mode ${ result.obj.mode }</p>
-                            <p><span class="red-em">Search term:</span> <strong>${ result.obj.searchTerm}</strong></p>
+                            <p class="gray-small">${ result.obj.datetime } | Mode <span class="red-em">${ result.obj.mode }</span> | Result # <span class="blue-em">${ result.obj.resultCount }</span></p>
+                            <p><strong>${ result.obj.searchTerm}</strong></p>
                         `
                     })
                 }
@@ -314,8 +314,8 @@ function searchSubmit() {
             
                         const searchResultItem = document.getElementById(`searchResult${index}`)
                         searchResultItem.innerHTML = `
-                            <p class="gray-small">Datetime ${ result.obj.datetime } | Result count ${ result.obj.resultCount } | Mode ${ result.obj.mode }</p>
-                            <p><span class="red-em">Search term:</span> <strong>${ result.obj.searchTerm}</strong></p>
+                            <p class="gray-small">${ result.obj.datetime } | Mode <span class="red-em">${ result.obj.mode }</span> | Result # <span class="blue-em">${ result.obj.resultCount }</span></p>
+                            <p><strong>${ result.obj.searchTerm}</strong></p>
                         `
                     }
                 })
@@ -342,8 +342,8 @@ function searchSubmit() {
 
                     const searchResultItem = document.getElementById(`searchResult${index}`)
                     searchResultItem.innerHTML = `
-                        <p class="gray-small">Datetime ${ result.obj.datetime } | Result count ${ result.obj.resultCount } | Mode ${ result.obj.mode }</p>
-                        <p><span class="red-em">Search term:</span> <strong>${ result.obj.searchTerm}</strong></p>
+                        <p class="gray-small">${ result.obj.datetime } | Mode <span class="red-em">${ result.obj.mode }</span> | Result # <span class="blue-em">${ result.obj.resultCount }</span></p>
+                        <p><strong>${ result.obj.searchTerm}</strong></p>
                     `
                 })
             }
@@ -380,8 +380,8 @@ function searchMore() {
 
             const searchResultItem = document.getElementById(`searchResult${index}`)
             searchResultItem.innerHTML = `
-                <p class="gray-small">Datetime ${ result.obj.datetime } | Result count ${ result.obj.resultCount } | Mode ${ result.obj.mode }</p>
-                <p><span class="red-em">Search term:</span> <strong>${ result.obj.searchTerm}</strong></p>
+                <p class="gray-small">${ result.obj.datetime } | Mode <span class="red-em">${ result.obj.mode }</span> | Result # <span class="blue-em">${ result.obj.resultCount }</span></p>
+                <p><strong>${ result.obj.searchTerm}</strong></p>
             `
         }
     })
