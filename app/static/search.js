@@ -674,7 +674,7 @@ function filterSearch() {
                                 }
 
                                 if (fValue === 'นอกกทม.') {
-                                    if (value !== 'กทม.' && value !== 'กทม' && value !== 'กรุงเทพ' || value === 'กรุงเทพฯ' || value === 'กรุงเทพมหานคร') {
+                                    if (value !== 'กทม.' && value !== 'กทม' && value !== 'กรุงเทพ' || value !== 'กรุงเทพฯ' || value !== 'กรุงเทพมหานคร') {
                                         searchObjFilteredArea.push(searchObjFilteredAge[i])
                                     }
                                 }
