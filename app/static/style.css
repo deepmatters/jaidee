@@ -207,6 +207,12 @@ a:hover, a:active {
     font-size: 0.8em;
 }
 
+blockquote {
+    border-left: 6px solid #d9d9d9;
+    padding-left: 1em;
+    margin-left: 1em;
+}
+
 table {
     font-size: 0.85em;
     border-collapse: separate;

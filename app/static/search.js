@@ -284,9 +284,12 @@ function searchSubmit() {
             })
         }
 
-        // Sort the search result array by matchNum
-        // We want results with high occurrences to appear first
-        searchArray.sort((a, b) => b.matchNum - a.matchNum)
+        // Sort the search result array by matchNum IF there's a search term.
+        // We want results with high occurrences to appear first.
+        // Otherwise, don't sort. Use default sort from back-end.
+        if (searchTermRaw.length !== 0) {
+            searchArray.sort((a, b) => b.matchNum - a.matchNum)
+        }
 
         console.log(searchArray)
         
@@ -419,7 +422,6 @@ function searchClear() {
     filterObj = {
         gender: [], 
         age: [], 
-        province: [], 
         type: []
     }
 
@@ -430,8 +432,6 @@ function searchClear() {
     age2.checked = false
     age3.checked = false
     age4.checked = false
-    provinceBkk.checked = false
-    provinceNoneBkk.checked = false
     dataFiltered.checked = false
     dataUnfiltered.checked = false
 
@@ -450,15 +450,12 @@ const age1 = document.getElementById('age1')
 const age2 = document.getElementById('age2')
 const age3 = document.getElementById('age3')
 const age4 = document.getElementById('age4')
-const provinceBkk = document.getElementById('provinceBkk')
-const provinceNoneBkk = document.getElementById('provinceNoneBkk')
 const dataFiltered = document.getElementById('dataFiltered')
 const dataUnfiltered = document.getElementById('dataUnfiltered')
 
 let filterObj = {  // Init an object to hold filter values
     gender: [], 
     age: [], 
-    province: [], 
     type: []
 }
 
@@ -505,18 +502,6 @@ age4.addEventListener('click', e => {
     filterPrep(filterKey, age4.value)
 })
 
-provinceBkk.addEventListener('click', e => {
-    const filterKey = 'province'
-
-    filterPrep(filterKey, provinceBkk.value)
-})
-
-provinceNoneBkk.addEventListener('click', e => {
-    const filterKey = 'province'
-
-    filterPrep(filterKey, provinceNoneBkk.value)
-})
-
 dataFiltered.addEventListener('click', e => {
     const filterKey = 'type'
 
@@ -557,7 +542,6 @@ function filterSearch() {
     // Create key check
     let genderCheck = false
     let ageCheck = false
-    let provinceCheck = false
     let typeCheck = false
 
     for (const [key, value] of Object.entries(filterObj)) {
@@ -573,12 +557,6 @@ function filterSearch() {
             }
         }
 
-        if (key === 'province') {
-            if (value.length !== 0) {
-                provinceCheck = true
-            }
-        }
-
         if (key === 'type') {
             if (value.length !== 0) {
                 typeCheck = true
@@ -587,13 +565,12 @@ function filterSearch() {
     }
 
     // CASE 0: None is checked
-    if (genderCheck === false && ageCheck === false && provinceCheck === false && typeCheck === false) {
+    if (genderCheck === false && ageCheck === false && typeCheck === false) {
 
     } else {  // CASE 1: Some are checked
         // Stage 1: filter GENDER first
         let searchObjFilteredGender = []
         let searchObjFilteredAge = []
-        let searchObjFilteredArea = []
 
         if (genderCheck === false) {
             // If no gender is checked, it means ALL is checked, 
@@ -656,55 +633,26 @@ function filterSearch() {
             }
         }
 
-        // Stage 3: filter PROVINCE from filtered AGE
-        if (provinceCheck === false) {
+        // Stage 4: filter TYPE from filtered AGE
+        if (typeCheck === false) {
             // If no gender is checked, it means ALL is checked, 
             // so assign searchObj to search object of this stage
-            searchObjFilteredArea = searchObjFilteredAge
+            searchObjFiltered = searchObjFilteredAge
         } else {
             for (const [filterKey, filterValue] of Object.entries(filterObj)) {
                 filterValue.forEach(fValue => {
                     searchObjFilteredAge.forEach((obj, i) => {
                         for (const [key, value] of Object.entries(obj)) {
-                            if (key === 'area') {
-                                if (fValue === 'กทม.') {
-                                    if (value === 'กทม.' || value === 'กทม' || value === 'กรุงเทพ' || value === 'กรุงเทพฯ' || value === 'กรุงเทพมหานคร') {
-                                        searchObjFilteredArea.push(searchObjFilteredAge[i])
-                                    }
-                                }
-
-                                if (fValue === 'นอกกทม.') {
-                                    if (value !== 'กทม.' && value !== 'กทม' && value !== 'กรุงเทพ' || value !== 'กรุงเทพฯ' || value !== 'กรุงเทพมหานคร') {
-                                        searchObjFilteredArea.push(searchObjFilteredAge[i])
-                                    }
-                                }
-                            }
-                        }
-                    })
-                })
-            }
-        }
-
-        // Stage 4: filter TYPE from filtered AREA
-        if (typeCheck === false) {
-            // If no gender is checked, it means ALL is checked, 
-            // so assign searchObj to search object of this stage
-            searchObjFiltered = searchObjFilteredArea
-        } else {
-            for (const [filterKey, filterValue] of Object.entries(filterObj)) {
-                filterValue.forEach(fValue => {
-                    searchObjFilteredArea.forEach((obj, i) => {
-                        for (const [key, value] of Object.entries(obj)) {
                             if (key === 'type') {
                                 if (fValue === 'คัดกรองแล้ว') {
                                     if (value === 'คัดกรองแล้ว') {
-                                        searchObjFiltered.push(searchObjFilteredArea[i])
+                                        searchObjFiltered.push(searchObjFilteredAge[i])
                                     }
                                 }
 
                                 if (fValue === 'ยังไม่ได้คัดกรอง') {
                                     if (value === 'ยังไม่ได้คัดกรอง') {
-                                        searchObjFiltered.push(searchObjFilteredArea[i])
+                                        searchObjFiltered.push(searchObjFilteredAge[i])
                                     }
                                 }
                             }
@@ -740,8 +688,6 @@ function loadInit() {
     age2.checked = false
     age3.checked = false
     age4.checked = false
-    provinceBkk.checked = false
-    provinceNoneBkk.checked = false
     dataFiltered.checked = false
     dataUnfiltered.checked = false
 

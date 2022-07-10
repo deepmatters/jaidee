@@ -6,6 +6,18 @@
         <h1>ข้อมูลของฉัน</h1>
         <div class="main-flex-wrapper">
             <div class="main-flex-half-left">
+                {% if user.role == 'admin' %}
+                    <h2>เครื่องมือของ Admin</h2>
+                    <blockquote>
+                        <p><a href="/search">ฐานข้อมูลประสบการณ์ (สาธารณะ)</a></p>
+                        <p><a href="/chat_record">บันทึกการสนทนา</a></p>
+                        <p><a href="/feedback">คะแนน Feedback</a></p>
+                    </blockquote>
+                    
+                {% endif %}
+                <br>
+            </div>
+            <div class="main-flex-half-right">
                 <p>รหัสผู้ใช้: {{ user.id }}</p>
                 <p>ชื่อ: {{ user.name }}</p>
                 <p>อีเมล: {{ user.email }}</p>
@@ -15,12 +27,6 @@
                 <p>วันที่ล็อกอินครั้งล่าสุด: {{ user.lastlogin_dt.strftime('%d-%m-%Y') }}</p>
                 <hr>
                 <p><a href="/logout">ออกจากระบบ</a></p>
-            </div>
-            <div class="main-flex-half-right">
-                {% if user.role == 'admin' %}
-                    <h2>เครื่องมือของ Admin</h2>
-                    <p><a href="/chat_record">บันทึกการสนทนา</a></p>
-                {% endif %}
             </div>
         </div>
     </div>

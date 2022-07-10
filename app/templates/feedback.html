@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+    <div id="mainWrapper" class="main-wrapper">
+        <div class="content-wrapper">
+            <p><a href="/profile">< กลับไปหน้าโปรไฟล์ของฉัน</a></p>
+            <div class="spacer-big"></div>
+            <p class="red-em">สำหรับ Admin เท่านั้น</p>
+            <h1>คะแนน Feedback</h1>
+            <p class="blue-em">Admin กรุณารักษาข้อมูลคะแนน Feedback นี้เป็นความลับ</p>
+
+            <div>
+                <br>
+                <p>ช่วยได้มาก: {{ score_best_pct }}%</p>
+                <p>ช่วยได้บ้าง: {{ score_average_pct }}%</p>
+                <p>ช่วยไม่ได้เลย: {{ score_none_pct }}%</p>
+                <hr>
+                <p>Total score count: {{ score_total }}</p>
+            </div>
+            <br><br>
+            
+        </div>
+    </div>
+</main>
+{% endblock %}

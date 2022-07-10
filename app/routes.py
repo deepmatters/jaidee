@@ -601,7 +601,7 @@ def search_api():
         data = []
         count = 1
 
-        for i in mongodb.solution.find({}):  # Filtered db
+        for i in mongodb.solution.find({}).sort('_id', -1):  # Filtered db
             # Append dict to data object
             data.append({
                 "id": count, 
@@ -616,7 +616,7 @@ def search_api():
 
             count += 1
 
-        for i in mongodb.donate.find({}):  # Unfiltered db
+        for i in mongodb.donate.find({}).sort('_id', -1):  # Unfiltered db
             # Append dict to data object
             data.append({
                 "id": count, 
@@ -630,6 +630,9 @@ def search_api():
             })
 
             count += 1
+
+        # Reverse data list so the it sorts by time descending
+        # data.reverse()
 
         return jsonify(data)
 
@@ -709,6 +712,44 @@ def chat_record_api():
                 count += 1
 
             return jsonify(data)
+
+"""
+Feedback
+"""
+
+@app.route('/feedback')
+@login_required
+def feedback():
+    admin = False
+
+    if current_user.is_authenticated:
+        if current_user.role == 'admin':
+            admin = True
+
+    if admin:
+        # Connect and define the database
+        client = pymongo.MongoClient(app.config['DB_SOLUTION_URI'])
+        mongodb = client.jaidee
+
+        score_best = 0
+        score_average = 0
+        score_none = 0
+
+        for i in mongodb.feedback.find({}):
+            if i['score'] == 'best':
+                score_best += 1
+            if i['score'] == 'average':
+                score_average += 1
+            if i['score'] == 'none':
+                score_none += 1
+
+        score_total = score_best + score_average + score_none
+
+        score_best_pct = round((score_best/score_total)*100, 2)
+        score_average_pct = round((score_average/score_total)*100, 2)
+        score_none_pct = round((score_none/score_total)*100, 2)
+
+        return render_template('feedback.html', score_best_pct=score_best_pct, score_average_pct=score_average_pct, score_none_pct=score_none_pct, score_total=score_total)
 
 """
 Static
